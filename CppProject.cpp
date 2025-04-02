@@ -142,7 +142,8 @@ public:
 
 // 게임 시스템 
 Card* Job[12] = { new Warrior(), new Paladin(), new Archer(), new Hunter(), new Thief(), new Assassin(), new Rogue(), new Priest(), new Bard(), new Mage(), new Sorcerer(), new Necromancer() };
-
+vector<Card> aiF = {};
+vector<Card> playerF = {};
 void Game();
 void First_Turn();
 int Pickup_Card();
@@ -173,9 +174,16 @@ void draw(int Ai_Lp, int Player_Lp, int card1, int card2, int card3, int card4, 
 	cout << "|\n";
 	cout << "|\n";
 	cout << "|\n";
-	cout << "|    " << card1 << "\t\t   " << card2 << "\t\t   " << card3 << "\n";
-	cout << "| atk :\t" << card1 << "\tatk : " << card2 << "\tatk : " << card3 << "\n";
-	cout << "| HP  :\t" << card1 << "\tHP  : " << card2 << "\tHP  : " << card3 << "\n";
+	cout << "|";
+	for (int i = 0; i < playerF.size();) {
+		cout << "\t\t" << playerF[i].getName();
+	}
+	for (int i = 0; i < playerF.size();) {
+		cout << "\t\t" << playerF[i].getName();
+	}
+	for (int i = 0; i < playerF.size();) {
+		cout << "\t\t" << playerF[i].getName();
+	}
 	cout << "|\n";
 	cout << "|\t    Player LP : " << Ai_Lp << "\n";
 	cout << "|----------------------------------------\n";
