@@ -2,6 +2,7 @@
 #include<windows.h>
 #include<random>
 #include<ctime>
+#include<string>
 using namespace std;
 
 
@@ -123,7 +124,7 @@ public:
 	}
 };
 
-
+	
 //출력부
 // 
 // 
@@ -144,43 +145,76 @@ void draw(int Ai_Lp, int Player_Lp, int card1, int card2, int card3, int card4, 
 	cout << "|\n";
 	cout << "|\t    Player LP : " << Ai_Lp << "\n";
 	cout << "|----------------------------------------\n";
-	cout << "|\t" << card6 << endl;
+/*	cout << "|\t" << card6 << endl;
 	cout << "|\t" << card6 << endl;
 	cout << "|\t" << card6 << endl;
 	cout << "|\t" << card6 << endl;
 	cout << "|\t" << "턴을 종료합니다. " << endl;
-	cout << "|----------------------------------------\n";
+	cout << "|----------------------------------------\n";	*/
 
 }
+void Trun();
+void Game();
+int Pickup_Card();
+int Attack();
+int Heal();
+void First_Turn();
 
-void turn() {
+//게임 시스템 
+//					0			1		2		3		  4		   5		6		7		8		9		10			11
+string Job[] = { "Warrior","Paladin","Archer","Hunter","Thief","Assassin","Rogue","Priest","Bard","Mage","Sorcerer","Necromancer"};
+void Turn() {
 
 }
 
 //게임진행
-void game() {
+void Game() {
 	system("cls");
 	draw(1000, 1000, 10, 10, 10, 10, 10, 10);
-
+	First_Turn();
 }
 
 //첫턴은 다르게 돌려야함 
 void First_Turn() {
 	cout << "플레이어 턴 입니다.\n";
-	cout << "낼 카드를 고르세요. : ";
-	int choose = 0;
-	cin >> choose;
-	pickup_Card(choose);
+	int choose = Pickup_Card();
+	cout << "| " << Job[choose] << " 을(를) 소환했다!" << endl;	
+	if (Job[choose] == "Warrior") {
+		Warrior card();
+	}
+	else if (Job[choose] == "Paladin") {
+		Paladin card();
+	}
 	
 }
 
 //카드뽑기함수
-void pickup_Card(int choose) {
+int Pickup_Card() {
 	std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
-	std::uniform_int_distribution<> dis(1, 12);
+	std::uniform_int_distribution<> dis(0, 11);
 	int randomCard1 = dis(gen); //랜덤카드뽑기 
 	int randomCard2 = dis(gen);
 	int randomCard3 = dis(gen);
+	cout << "| 뽑은 카드\n";
+	cout << "| 1. "<<Job[randomCard1]<<endl;
+	cout << "| 2. "<<Job[randomCard2]<<endl;
+	cout << "| 3. "<<Job[randomCard3]<<endl;
+	cout << "| 낼 카드를 고르세요. : ";
+	int choose = 0;
+	cin >> choose;
+	if (choose == 1) {
+		return randomCard1;
+	}
+	else if (choose == 2) {
+		return randomCard1;
+	}
+	else if (choose == 3) {
+		return randomCard3;
+	}
+	else {
+		cout << "입력이 잘못되었습니다 !!";
+		Game();
+	}
 }
 
 //사용자의 공격력과 체력을 받아서 공격력-체력을 return
@@ -197,10 +231,10 @@ int Heal(int skill, int hp) {
 
 int main() {
 	int choose;
-	cout << "===Game !===\n1. Insert Coin\n2. end\ninput : ";
+	cout << "===Parallel Deck===\n1. Insert Coin\n2. end\ninput : ";
 	cin >> choose;
 	if (choose == 1) {
-		game();
+		Game();
 	}
 	else if (choose == 2) {
 		return 0;
