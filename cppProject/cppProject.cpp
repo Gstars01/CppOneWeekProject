@@ -21,6 +21,7 @@ public:
 	int Skill() override {
 		// 데미지 감소 40%
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -30,6 +31,7 @@ public:
 	int Skill() override {
 		// 데미지 감소 50% + 회복 2
 		// 쿨타임 4
+		return 0;
 	}
 };
 
@@ -39,6 +41,7 @@ public:
 	int Skill() override {
 		// 3명 히트
 		// 쿨타임 2
+		return 0;
 	}
 };
 
@@ -48,6 +51,7 @@ public:
 	int Skill() override {
 		// 1명 1.2배 나머지 0.5배 히트
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -57,7 +61,7 @@ public:
 	int Skill() override {
 		// 데미지 2배, 기절 1턴
 		// 쿨타임 2
-
+		return 0;
 	}
 };
 
@@ -67,6 +71,7 @@ public:
 	int Skill() override {
 		// 1명 1.5배
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -76,6 +81,7 @@ public:
 	int Skill() override {
 		// 1명 0.9배 2회 타격
 		// // 쿨타임 2
+		return 0;
 	}
 };
 
@@ -85,6 +91,7 @@ public:
 	int Skill() override {
 		// 4 회복
 		// 쿨타임 4
+		return 0;
 	}
 };
 
@@ -94,6 +101,7 @@ public:
 	int Skill() override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -103,6 +111,7 @@ public:
 	int Skill() override {
 		// 데미지 2배
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -112,6 +121,7 @@ public:
 	int Skill() override {
 		// 3명 히트
 		// 쿨타임 3
+		return 0;
 	}
 };
 
@@ -121,6 +131,7 @@ public:
 	int Skill() override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
+		return 0;
 	}
 };
 
@@ -163,6 +174,8 @@ void First_Turn();
 //게임 시스템 
 //					0			1		2		3		  4		   5		6		7		8		9		10			11
 string Job[] = { "Warrior","Paladin","Archer","Hunter","Thief","Assassin","Rogue","Priest","Bard","Mage","Sorcerer","Necromancer"};
+vector<Card> Ai = {};
+vector<Card> Player = {};
 void Turn() {
 
 }
@@ -180,12 +193,41 @@ void First_Turn() {
 	int choose = Pickup_Card();
 	cout << "| " << Job[choose] << " 을(를) 소환했다!" << endl;	
 	if (Job[choose] == "Warrior") {
-		Warrior card();
-	}
-	else if (Job[choose] == "Paladin") {
-		Paladin card();
-	}
-	
+    Warrior card;
+}
+else if (Job[choose] == "Paladin") {
+    Paladin card;
+}
+else if (Job[choose] == "Archer") {
+    Archer card;
+}
+else if (Job[choose] == "Hunter") {
+    Hunter card;
+}
+else if (Job[choose] == "Thief") {
+    Thief card;
+}
+else if (Job[choose] == "Assassin") {
+    Assassin card;
+}
+else if (Job[choose] == "Rogue") {
+    Rogue card;
+}
+else if (Job[choose] == "Priest") {
+    Priest card;
+}
+else if (Job[choose] == "Bard") {
+    Bard card;
+}
+else if (Job[choose] == "Mage") {
+    Mage card;
+}
+else if (Job[choose] == "Sorcerer") {
+    Sorcerer card;
+}
+else if (Job[choose] == "Necromancer") {
+    Necromancer card;
+}
 }
 
 //카드뽑기함수
@@ -206,7 +248,7 @@ int Pickup_Card() {
 		return randomCard1;
 	}
 	else if (choose == 2) {
-		return randomCard1;
+		return randomCard2;
 	}
 	else if (choose == 3) {
 		return randomCard3;
