@@ -3,27 +3,29 @@
 #include<random>
 #include<ctime>
 #include<string>
-using namespace std;
 
+using namespace std;
 
 //카드 구현부
 class Card {
 protected:
-	int atk, hp;
+	int atk, def, hp;
 	string name;
 public:
-	Card(int a, int b, string c) : atk(a), hp(b), name(c) {}
+	Card(int a, int b, int c, string d) : atk(a), def(b), hp(c), name(d) {}
 	string getName() { return name; }
 	int getAtk() { return atk; }
+	int getdef() { return def; }
 	int getHp() { return hp; }
 	virtual int Skill() = 0;
 };
 
 class Warrior : public Card {
 public:
-	Warrior() : Card(6, 12, "전사") {}
+	Warrior() : Card(6, 0, 12, "전사") {}
 	int Skill() override {
 		// 데미지 감소 40%
+		
 		// 쿨타임 3
 		return 0;
 	}
@@ -31,7 +33,7 @@ public:
 
 class Paladin : public Card {
 public:
-	Paladin() : Card(5, 14, "성기사") {}
+	Paladin() : Card(5, 0, 14, "성기사") {}
 	int Skill() override {
 		// 데미지 감소 50% + 회복 2
 		// 쿨타임 4
@@ -41,7 +43,7 @@ public:
 
 class Archer : public Card {
 public:
-	Archer() : Card(7, 9, "궁수") {}
+	Archer() : Card(7, 0, 9, "궁수") {}
 	int Skill() override {
 		// 3명 히트
 		// 쿨타임 2
@@ -51,7 +53,7 @@ public:
 
 class Hunter : public Card {
 public:
-	Hunter() : Card(8, 10, "헌터") {}
+	Hunter() : Card(8, 0, 10, "헌터") {}
 	int Skill() override {
 		// 1명 1.2배 나머지 0.5배 히트
 		// 쿨타임 3
@@ -61,7 +63,7 @@ public:
 
 class Thief : public Card {
 public:
-	Thief() : Card(7, 8, "도적") {}
+	Thief() : Card(7, 0, 8, "도적") {}
 	int Skill() override {
 		// 데미지 2배
 		// 쿨타임 2
@@ -71,7 +73,7 @@ public:
 
 class Assassin : public Card {
 public:
-	Assassin() : Card(8, 7, "암살자") {}
+	Assassin() : Card(8, 0, 7, "암살자") {}
 	int Skill() override {
 		// 1명 1.5배
 		// 쿨타임 3
@@ -81,7 +83,7 @@ public:
 
 class Rogue : public Card {
 public:
-	Rogue() : Card(6, 9, "로그") {}
+	Rogue() : Card(6, 0, 9, "로그") {}
 	int Skill() override {
 		// 1명 0.9배 2회 타격
 		// // 쿨타임 2
@@ -91,7 +93,7 @@ public:
 
 class Priest : public Card {
 public:
-	Priest() : Card(4, 12, "성직자") {}
+	Priest() : Card(4, 0, 12, "성직자") {}
 	int Skill() override {
 		// 4 회복
 		// 쿨타임 4
@@ -101,7 +103,7 @@ public:
 
 class Bard : public Card {
 public:
-	Bard() : Card(4, 10, "음유시인") {}
+	Bard() : Card(4, 0, 10, "음유시인") {}
 	int Skill() override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
@@ -111,7 +113,7 @@ public:
 
 class Mage : public Card {
 public:
-	Mage() : Card(9, 6, "마법사") {}
+	Mage() : Card(9, 0, 6, "마법사") {}
 	int Skill() override {
 		// 데미지 2배
 		// 쿨타임 3
@@ -121,7 +123,7 @@ public:
 
 class Sorcerer : public Card {
 public:
-	Sorcerer() : Card(8, 6, "소서러") {}
+	Sorcerer() : Card(8, 0, 6, "소서러") {}
 	int Skill() override {
 		// 3명 히트
 		// 쿨타임 3
@@ -131,7 +133,7 @@ public:
 
 class Necromancer : public Card {
 public:
-	Necromancer() : Card(8, 6, "네크로맨서") {}
+	Necromancer() : Card(8, 0, 6, "네크로맨서") {}
 	int Skill() override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
@@ -214,7 +216,6 @@ void Turn() {
 int Attack(int atk, int hp) {
 	if (atk - hp < 0) {
 		//죽어야함 (함수)
-		return atk - hp;
 	}
 	return atk - hp;
 }
@@ -222,7 +223,6 @@ int Attack(int atk, int hp) {
 int Attack(int atk, int hp, double def) {
 	if (hp - atk * def < 0) {
 		//죽어야함 (함수)
-		return hp - atk * def;
 	}
 	return hp - atk * def;
 }
