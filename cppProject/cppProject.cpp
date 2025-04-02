@@ -1,28 +1,7 @@
-﻿// 화면에서 출력되어야하는부분 :
-// 필드
-// 선택창
-//|----------------------------------------
-//|					you
-//|
-//|
-//|
-//|
-//|
-//|
-//|	 card 1		 card 2		 card3 
-//|	atk	: 10	atk : 10	atk	: 10
-//|	hp	: 10	atk : 10	hp	: 10
-//|
-//|					you
-//|------------------------------------------
-//|	당신은 어떤 행동을 할까?
-//|	1. 공격
-//|	2. 스킬 사용
-//|
-//|
-
-#include<iostream>
+﻿#include<iostream>
 #include<windows.h>
+#include<random>
+#include<ctime>
 using namespace std;
 
 // card는 객체임 안쓸때는 빈 객체를 생성하여 0을 전달할것 
@@ -55,16 +34,36 @@ void turn() {
 
 }
 
+//게임진행
 void game() {
 	system("cls");
 	draw(1000, 1000, 10, 10, 10, 10, 10, 10);
 
 }
 
+//첫턴은 다르게 돌려야함 
+void First_Turn() {
+	cout << "플레이어 턴 입니다.\n";
+	cout << "낼 카드를 고르세요. : ";
+	int choose = 0;
+	cin >> choose;
+	pickup_Card(choose);
+	
+}
+
+//카드뽑기함수
+void pickup_Card(int choose) {
+	std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+	std::uniform_int_distribution<> dis(1, 12);
+	int randomCard1 = dis(gen); //랜덤카드뽑기 
+	int randomCard2 = dis(gen);
+	int randomCard3 = dis(gen);
+}
+
 //사용자의 공격력과 체력을 받아서 공격력-체력을 return
 int Attack(int atk, int hp) {
 	if (atk - hp < 0) {
-		//죽어야함
+		//죽어야함 (함수)
 		return atk - hp;
 	}
 	return atk - hp;
