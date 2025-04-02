@@ -190,7 +190,7 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size();i++) {
-		cout << "\tHp : " << aiF[i]->getHp();
+		cout << "\tHp  : " << aiF[i]->getHp();
 	}
 	cout << "\n";
 	cout << "|\n";
@@ -212,7 +212,7 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < playerF.size();i++) {
-		cout << "\tHp : " << playerF[i]->getHp();
+		cout << "\tHp  : " << playerF[i]->getHp();
 	}
 	cout << "\n";
 	cout << "|\n";
@@ -236,6 +236,7 @@ void Game() {
 	draw(aiLp, playerLP);
 	First_Turn();
 	Ai_Turn();
+	First_Turn();
 }
 
 // 첫번째 턴 진행 함수
@@ -251,7 +252,9 @@ void First_Turn() {
 	cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
 	cout << "| 첫턴이므로 공격을 수행하지 못합니다.\n";
 	cout << "| 엔터를 눌러서 턴을 종료합니다.\n";
-	cout << "|----------------------------------------\n";
+	cout << "|----------------------------------------";
+	cin.ignore();
+	cin.get( ); // Enter 입력 대기
 }
 
 // 턴 진행 함수
@@ -265,6 +268,9 @@ void Ai_Turn() {
 	aiF.push_back(Job[choose]);//필드 소환
 	draw(aiLp, playerLP);
 	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	cout << "| 엔터를 눌러서 Ai턴을 종료를 확인 합니다.\n";
+	cout << "|----------------------------------------\n";
+	cin.get( ); // Enter 입력 대기
 }
 
 //방어력 적용하지 않는 공격
