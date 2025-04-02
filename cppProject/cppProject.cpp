@@ -211,7 +211,7 @@ void draw(int Ai_Lp, int Player_Lp, int card1, int card2, int card3, int card4, 
 	cout << "|\t" << card6 << endl;
 	cout << "|\t" << card6 << endl;
 	cout << "|\t" << "턴을 종료합니다. " << endl;
-	cout << "|----------------------------------------\n";	*/
+	cout << "|-----------------------------------------\n";	*/
 
 }
 void Trun();
