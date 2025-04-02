@@ -1,2 +1,7 @@
+<<<<<<< HEAD
 PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.39.33519:TargetPlatformVersion=10.0.22621.0:
 Debug|x64|C:\Users\user\Source\Repos\CppOneWeekProject\|
+=======
+PlatformToolSet=v143:VCToolArchitecture=Native64Bit:VCToolsVersion=14.42.34433:TargetPlatformVersion=10.0.22621.0:
+Debug|x64|D:\smham\CppOneWeekProject\|
+>>>>>>> cb2f4a76a73ce6ca3cc44440180de4c59cfa917a
