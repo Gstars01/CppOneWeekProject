@@ -9,24 +9,28 @@ using namespace std;
 //카드 구현부
 class Card {
 protected:
-	int atk, def, hp;
+	int atk, def, hp, coolTime = 0;
 	string name;
 public:
 	Card(int a, int b, int c, string d) : atk(a), def(b), hp(c), name(d) {}
 	string getName() { return name; }
+	void setDef(int a) { def = a; }
+	void setHp(int a) { hp = a; }
+	void setCoolTime(int a) { coolTime = a; }
 	int getAtk() { return atk; }
 	int getdef() { return def; }
 	int getHp() { return hp; }
-	virtual int Skill() = 0;
+	virtual int Skill(vector<Card*>) = 0;
 };
 
 class Warrior : public Card {
 public:
 	Warrior() : Card(6, 0, 12, "전사") {}
-	int Skill() override {
-		// 데미지 감소 40%
-		
+	int Skill(vector<Card*> p) override {
+		// 방어력 4
+		p[0]->setDef(def + 4);
 		// 쿨타임 3
+		p[0]->setCoolTime(3);
 		return 0;
 	}
 };
@@ -34,19 +38,26 @@ public:
 class Paladin : public Card {
 public:
 	Paladin() : Card(5, 0, 14, "성기사") {}
-	int Skill() override {
-		// 데미지 감소 50% + 회복 2
+	int Skill(vector<Card*> p) override {
+		// 방어력 4 회복 2
+		p[0]->setDef(def + 4);
+		p[0]->setHp(hp + 2);
 		// 쿨타임 4
+		p[0]->setCoolTime(4);
 		return 0;
 	}
 };
 
+int Attack(vector<Card*>);
+
 class Archer : public Card {
 public:
 	Archer() : Card(7, 0, 9, "궁수") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 3명 히트
-		// 쿨타임 2
+	
+		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -54,9 +65,10 @@ public:
 class Hunter : public Card {
 public:
 	Hunter() : Card(8, 0, 10, "헌터") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 1명 1.2배 나머지 0.5배 히트
 		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -64,9 +76,10 @@ public:
 class Thief : public Card {
 public:
 	Thief() : Card(7, 0, 8, "도적") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 데미지 2배
-		// 쿨타임 2
+		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -74,9 +87,10 @@ public:
 class Assassin : public Card {
 public:
 	Assassin() : Card(8, 0, 7, "암살자") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 1명 1.5배
 		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -84,9 +98,10 @@ public:
 class Rogue : public Card {
 public:
 	Rogue() : Card(6, 0, 9, "로그") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 1명 0.9배 2회 타격
-		// // 쿨타임 2
+		// // 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -94,9 +109,10 @@ public:
 class Priest : public Card {
 public:
 	Priest() : Card(4, 0, 12, "성직자") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 4 회복
 		// 쿨타임 4
+		setCoolTime(4);
 		return 0;
 	}
 };
@@ -104,9 +120,10 @@ public:
 class Bard : public Card {
 public:
 	Bard() : Card(4, 0, 10, "음유시인") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -114,9 +131,10 @@ public:
 class Mage : public Card {
 public:
 	Mage() : Card(9, 0, 6, "마법사") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 데미지 2배
 		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -124,9 +142,10 @@ public:
 class Sorcerer : public Card {
 public:
 	Sorcerer() : Card(8, 0, 6, "소서러") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 3명 히트
 		// 쿨타임 3
+		setCoolTime(3);
 		return 0;
 	}
 };
@@ -134,9 +153,10 @@ public:
 class Necromancer : public Card {
 public:
 	Necromancer() : Card(8, 0, 6, "네크로맨서") {}
-	int Skill() override {
+	int Skill(vector<Card*> p) override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
+		setCoolTime(4);
 		return 0;
 	}
 };
@@ -227,9 +247,6 @@ void draw(int ai_Lp, int player_Lp) {
 
 }
 
-
-
-
 // 게임진행
 void Game() {
 	system("cls");
@@ -276,21 +293,22 @@ void Ai_Turn() {
 	cin.get( ); // Enter 입력 대기
 }
 
-//방어력 적용하지 않는 공격
-int Attack(int atk, int hp) {
-	if (atk - hp < 0) {
-		//죽어야함 (함수)
+// 공격
+template <typename T>
+T Attack(Card* attacker, vector<Card*> defenders) {
+	for (Card* defender : defenders) {
+		if (defender->def >= attacker->atk) {
+			defender->setDef(defender->def -= attacker->atk);
+			return 0;
+		}
+		else if (defender->hp + defender->def - attacker->atk < 0) {
+			// 사망
+		}
+		else {
+			return defender->hp + defender->def - attacker->atk;
+		}
 	}
-	return atk - hp;
 }
-//방어력을 적용하는 공격
-int Attack(int atk, int hp, double def) {
-	if (hp - atk * def < 0) {
-		//죽어야함 (함수)
-	}
-	return hp - atk * def;
-}
-
 int Heal(int skill, int hp) {
 	return skill + hp;
 }
