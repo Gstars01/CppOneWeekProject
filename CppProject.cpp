@@ -255,10 +255,13 @@ void First_Turn() {
 	cout << "|----------------------------------------";
 	cin.ignore();
 	cin.get( ); // Enter 입력 대기
-}
+} 
 
 // 턴 진행 함수
 void Turn() {
+	system("cls");
+	draw(aiLp, playerLP);
+	cout << "|플레이어 턴 입니다\n";
 
 }
 
@@ -268,7 +271,7 @@ void Ai_Turn() {
 	aiF.push_back(Job[choose]);//필드 소환
 	draw(aiLp, playerLP);
 	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-	cout << "| 엔터를 눌러서 Ai턴을 종료를 확인 합니다.\n";
+	cout << "| 엔터를 눌러서 Ai턴 종료를 확인 합니다.\n";
 	cout << "|----------------------------------------\n";
 	cin.get( ); // Enter 입력 대기
 }
