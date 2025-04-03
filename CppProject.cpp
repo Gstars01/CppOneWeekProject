@@ -337,8 +337,10 @@ int Pickup_Card() {
 		return randomCard3;
 	}
 	else {
-		cout << "입력이 잘못되었습니다 !!";
-		Game();
+		system("cls");
+		draw(aiLp,playerLP);
+		cout << "| 입력이 잘못되었습니다 !!\n";
+		return Pickup_Card();
 	}
 }
 
