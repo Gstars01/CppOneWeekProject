@@ -25,7 +25,7 @@ public:
 
 class Warrior : public Card {
 public:
-	Warrior() : Card(6, 0, 12, "전사") {}
+	Warrior() : Card(6, 0, 12, "전사    ") {}
 	int Skill(vector<Card*> p) override {
 		// 방어력 4
 		p[0]->setDef(def + 4);
@@ -37,7 +37,7 @@ public:
 
 class Paladin : public Card {
 public:
-	Paladin() : Card(5, 0, 14, "성기사") {}
+	Paladin() : Card(5, 0, 14, "성기사  ") {}
 	int Skill(vector<Card*> p) override {
 		// 방어력 4 회복 2
 		p[0]->setDef(def + 4);
@@ -52,7 +52,7 @@ int Attack(Card* , vector<Card*>);
 
 class Archer : public Card {
 public:
-	Archer() : Card(7, 0, 9, "궁수") {}
+	Archer() : Card(7, 0, 9, "궁수    ") {}
 	int Skill(vector<Card*> p) override {
 		// 3명 히트
 	
@@ -64,7 +64,7 @@ public:
 
 class Hunter : public Card {
 public:
-	Hunter() : Card(8, 0, 10, "헌터") {}
+	Hunter() : Card(8, 0, 10, "헌터    ") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 1.2배 나머지 0.5배 히트
 		// 쿨타임 3
@@ -75,7 +75,7 @@ public:
 
 class Thief : public Card {
 public:
-	Thief() : Card(7, 0, 8, "도적") {}
+	Thief() : Card(7, 0, 8, "도적    ") {}
 	int Skill(vector<Card*> p) override {
 		// 데미지 2배
 		// 쿨타임 3
@@ -86,7 +86,7 @@ public:
 
 class Assassin : public Card {
 public:
-	Assassin() : Card(8, 0, 7, "암살자") {}
+	Assassin() : Card(8, 0, 7, "암살자  ") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 1.5배
 		// 쿨타임 3
@@ -97,7 +97,7 @@ public:
 
 class Rogue : public Card {
 public:
-	Rogue() : Card(6, 0, 9, "로그") {}
+	Rogue() : Card(6, 0, 9, "로그    ") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 0.9배 2회 타격
 		// // 쿨타임 3
@@ -108,7 +108,7 @@ public:
 
 class Priest : public Card {
 public:
-	Priest() : Card(4, 0, 12, "성직자") {}
+	Priest() : Card(4, 0, 12, "성직자  ") {}
 	int Skill(vector<Card*> p) override {
 		// 4 회복
 		// 쿨타임 4
@@ -119,7 +119,7 @@ public:
 
 class Bard : public Card {
 public:
-	Bard() : Card(4, 0, 10, "음유시인") {}
+	Bard() : Card(4, 0, 10, "음유시인 ") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
@@ -130,7 +130,7 @@ public:
 
 class Mage : public Card {
 public:
-	Mage() : Card(9, 0, 6, "마법사") {}
+	Mage() : Card(9, 0, 6, "마법사  ") {}
 	int Skill(vector<Card*> p) override {
 		// 데미지 2배
 		// 쿨타임 3
@@ -141,7 +141,7 @@ public:
 
 class Sorcerer : public Card {
 public:
-	Sorcerer() : Card(8, 0, 6, "소서러") {}
+	Sorcerer() : Card(8, 0, 6, "소서러  ") {}
 	int Skill(vector<Card*> p) override {
 		// 3명 히트
 		// 쿨타임 3
@@ -156,8 +156,8 @@ public:
 	int Skill(vector<Card*> p) override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
-		setCoolTime(4);
-		return 0;
+setCoolTime(4);
+return 0;
 	}
 };
 
@@ -168,11 +168,11 @@ vector<Card*> aiF = {};
 vector<Card*> playerF = {};
 void Game();
 void First_Turn();
-void Second_Turn();
+void Player_Turn();
 int Pickup_Card();
 int Ai_Pickup_Card();
 void Ai_Turn();
-int playerLP = 1;
+int playerLP = 20;
 int aiLp = 20;
 
 int main() {
@@ -192,53 +192,63 @@ int main() {
 // 
 // card는 객체임 안쓸때는 빈 객체를 생성하여 0을 전달할것 
 void draw(int ai_Lp, int player_Lp) {
-	cout << "|----------------------------------------\n";
-	cout << "|\t\tAI LP : " << ai_Lp << "\n";
 	cout << "|";
-	for (int i = 0; i < aiF.size();i++) {
+	for (int i = 0; i < 60; i++) {
+		cout << "-";
+	}
+	cout << "\n";
+	cout << "|\t\t     AI LP : " << ai_Lp << "\n";
+	cout << "|\n";
+	cout << "|";
+	for (int i = 0; i < aiF.size(); i++) {
 		cout << "\t" << aiF[i]->getName();
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < aiF.size();i++) {
-		cout << "\tAtk : " << aiF[i]->getAtk();
+	for (int i = 0; i < aiF.size(); i++) {
+		cout << "\tAtk : " << aiF[i]->getAtk() << "  ";;
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < aiF.size();i++) {
-		cout << "\tDef :" << aiF[i]->getDef();
+	for (int i = 0; i < aiF.size(); i++) {
+		cout << "\tDef :" << aiF[i]->getDef() << "  ";;
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < aiF.size();i++) {
-		cout << "\tHp  : " << aiF[i]->getHp();
+	for (int i = 0; i < aiF.size(); i++) {
+		cout << "\tHp  : " << aiF[i]->getHp() << "  ";;
 	}
 	cout << "\n";
 	cout << "|\n";
 	cout << "|\n";
 	cout << "|";
-	for (int i = 0; i < playerF.size();i++) {
+	for (int i = 0; i < playerF.size(); i++) {
 		cout << "\t" << playerF[i]->getName();
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < playerF.size();i++) {
-		cout <<  "\tAtk : " << playerF[i]->getAtk();
+	for (int i = 0; i < playerF.size(); i++) {
+		cout << "\tAtk : " << playerF[i]->getAtk() << "  ";
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < playerF.size();i++) {
-		cout << "\tDef :" << playerF[i]->getDef();
+	for (int i = 0; i < playerF.size(); i++) {
+		cout << "\tDef :" << playerF[i]->getDef() << "  ";
 	}
 	cout << "\n";
 	cout << "|";
-	for (int i = 0; i < playerF.size();i++) {
-		cout << "\tHp  : " << playerF[i]->getHp();
+	for (int i = 0; i < playerF.size(); i++) {
+		cout << "\tHp  : " << playerF[i]->getHp()<<"  ";
 	}
 	cout << "\n";
 	cout << "|\n";
-	cout << "|\t    Player LP : " << player_Lp << "\n";
-	cout << "|----------------------------------------\n";
+	cout << "|\t\t    Player LP : " << player_Lp << "\n";
+	cout << "|";
+	for (int i = 0; i < 60; i++) {
+		cout << "-";
+	}
+	cout << "\n";
+
 	/*	cout << "|\t" << card6 << endl;
 		cout << "|\t" << card6 << endl;
 		cout << "|\t" << card6 << endl;
@@ -254,10 +264,8 @@ void Game() {
 	system("cls");
 	draw(aiLp, playerLP);
 	First_Turn();
-	Ai_Turn();
-	
-	while (1) {
-		Second_Turn();
+	while (1){
+		Ai_Turn();
 		if (aiLp <= 0) {
 			cout << "플레이어 승";
 			break;
@@ -266,9 +274,7 @@ void Game() {
 			cout << "AI 승";
 			break;
 		}
-		cin.ignore();
-		cin.get();
-		Ai_Turn2();
+		Player_Turn();
 		if (aiLp <= 0) {
 			cout << "플레이어 승";
 			break;
@@ -286,11 +292,15 @@ void First_Turn() {
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
 	int choose = Pickup_Card(); // 카드 뽑기( 인풋)
-	playerF.push_back(Job[choose]);//필드 소환 
+	if (choose != 13) {
+		playerF.push_back(Job[choose]);
+	}
 	//여기서 그려지는게 맞음 
 	system("cls");
 	draw(aiLp, playerLP);
-	cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	if (choose != 13) {
+		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	}
 	cout << "| 첫턴이므로 공격을 수행하지 못합니다.\n";
 	cout << "| 엔터를 눌러서 턴을 종료합니다.\n";
 	cout << "|----------------------------------------";
@@ -298,35 +308,32 @@ void First_Turn() {
 	cin.get( ); // Enter 입력 대기
 } 
 
-// 턴 진행 함수
-void Turn() {
-	system("cls");
-	draw(aiLp, playerLP);
-	cout << "|플레이어 턴 입니다\n";
-
-}
-
 void Ai_Turn() {
 	system("cls");
 	int choose = Ai_Pickup_Card();
 	aiF.push_back(Job[choose]);//필드 소환
 	draw(aiLp, playerLP);
 	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	Ai_attack();
 	cout << "| 엔터를 눌러서 Ai턴 종료를 확인 합니다.\n";
 	cout << "|----------------------------------------\n";
 	cin.get( ); // Enter 입력 대기
 }
 
 //두번째 턴 진행 함수
-void Second_Turn() {
+void Player_Turn() {
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
 	int choose = Pickup_Card(); 
-	playerF.push_back(Job[choose]);
+	if (choose != 13) {
+		playerF.push_back(Job[choose]);
+	}
 	system("cls");
 	draw(aiLp, playerLP);
-	cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	if (choose != 13) {
+		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	}
 	system("cls");
 	Attack(playerF.back(), aiF);
 	system("cls");
@@ -366,7 +373,7 @@ int Ai_attack() {
 		}
 	}
 	Card* defender = playerF[lowhp];
-	cout << "| "<< attacker->getName() << " 카드로 " << defender->getName() << "을 공격합니다!" << endl;
+	cout << "| "<< attacker->getName() << " 카드로 " << defender->getName() << "을(를) 공격합니다!" << endl;
 	cin.get();
 	if (defender->getHp() + defender->getDef() >= attacker->getAtk()) {
 		if (defender->getDef() >= attacker->getAtk()) {
@@ -463,10 +470,12 @@ int Pickup_Card() {
 	int randomCard1 = dis(gen); //랜덤카드뽑기 
 	int randomCard2 = dis(gen);
 	int randomCard3 = dis(gen);
+	int nochoose = 13;
 	cout << "| 뽑은 카드\n";
 	cout << "| 1. " << Job[randomCard1]->getName() << endl;
 	cout << "| 2. " << Job[randomCard2]->getName() << endl;
 	cout << "| 3. " << Job[randomCard3]->getName() << endl;
+	cout << "| 4. 소환을 스킵하기."<<endl;
 	cout << "| 낼 카드를 고르세요. : ";
 	int choose = 0;
 	cin >> choose;
@@ -478,6 +487,9 @@ int Pickup_Card() {
 	}
 	else if (choose == 3) {
 		return randomCard3;
+	}
+	else if (choose == 4) {
+		return nochoose;
 	}
 	else {
 		system("cls");
