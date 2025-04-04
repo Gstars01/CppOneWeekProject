@@ -1,9 +1,10 @@
 ﻿  CppProject.cpp
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(366,51): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(366,51): warning C4267:         with
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(366,51): warning C4267:         [
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(366,51): warning C4267:             _Ty=int
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(366,51): warning C4267:         ]
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(520,1): warning C4715: 'Ai_Pickup_Card': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\Users\khw49\Source\Repos\CppOneWeekProject\CppProject.cpp(461,1): warning C4715: 'Attack': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  CppProject.vcxproj -> C:\Users\khw49\Source\Repos\CppOneWeekProject\x64\Debug\CppProject.exe
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(368,52): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(368,52): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(368,52): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(368,52): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(368,52): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(525,1): warning C4715: 'Ai_Pickup_Card': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(403,1): warning C4715: 'Ai_attack': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(466,1): warning C4715: 'Attack': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  CppProject.vcxproj -> C:\Users\user\source\repos\CppOneWeekProject\x64\Debug\CppProject.exe
