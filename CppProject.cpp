@@ -236,7 +236,6 @@ void Game() {
 	draw(aiLp, playerLP);
 	First_Turn();
 	Ai_Turn();
-	First_Turn();
 }
 
 // 첫번째 턴 진행 함수
@@ -268,7 +267,7 @@ void Ai_Turn() {
 	aiF.push_back(Job[choose]);//필드 소환
 	draw(aiLp, playerLP);
 	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-	cout << "| 엔터를 눌러서 Ai턴을 종료를 확인 합니다.\n";
+	cout << "| 엔터를 눌러서 Ai공격페이즈를 진행합니다.\n";
 	cout << "|----------------------------------------\n";
 	cin.get( ); // Enter 입력 대기
 }
