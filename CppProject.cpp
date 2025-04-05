@@ -50,8 +50,6 @@ public:
 	}
 };
 
-int Attack(Card* , vector<Card*>);
-
 class Archer : public Card {
 public:
 	Archer() : Card(7, 0, 9, "궁수") {}
@@ -158,22 +156,24 @@ public:
 	int Skill(vector<Card*> p) override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
-setCoolTime(4);
-return 0;
+		setCoolTime(4);
+		return 0;
 	}
 };
 
-
 // 게임 시스템 
-Card* Job[12] = { new Warrior(), new Paladin(), new Archer(), new Hunter(), new Thief(), new Assassin(), new Rogue(), new Priest(), new Bard(), new Mage(), new Sorcerer(), new Necromancer() };
+Card* Job[12];
 vector<Card*> aiF = {};
 vector<Card*> playerF = {};
 void Game();
-void First_Turn();
+void Player_First_Turn();
+void Ai_First_Turn();
 void Player_Turn();
+void Ai_Turn();
+void Attack(Card*, vector<Card*>);
+void Ai_attack();
 int Pickup_Card();
 int Ai_Pickup_Card();
-void Ai_Turn();
 int playerLP = 20;
 int aiLp = 20;
 
@@ -259,37 +259,37 @@ void draw(int ai_Lp, int player_Lp) {
 		cout << "|-----------------------------------------\n";	*/
 
 }
-int Ai_attack();
-void Ai_Turn2();
+
+void initializeJobs() {
+	Job[0] = new Warrior();
+	Job[1] = new Paladin();
+	Job[2] = new Archer();
+	Job[3] = new Hunter();
+	Job[4] = new Thief();
+	Job[5] = new Assassin();
+	Job[6] = new Rogue();
+	Job[7] = new Priest();
+	Job[8] = new Bard();
+	Job[9] = new Mage();
+	Job[10] = new Sorcerer();
+	Job[11] = new Necromancer();
+}
+
 // 게임진행
 void Game() {
 	system("cls");
 	draw(aiLp, playerLP);
-	First_Turn();
+	Player_First_Turn(); // Ai_Turn (랜덤) 
 	while (1){
 		Ai_Turn();
-		if (aiLp <= 0) {
-			cout << "플레이어 승";
-			break;
-		}
-		else if (playerLP <= 0) {
-			cout << "AI 승";
-			break;
-		}
+		if (playerLP <= 0) break; // 게임 종료 조건
 		Player_Turn();
-		if (aiLp <= 0) {
-			cout << "플레이어 승";
-			break;
-		}
-		else if (playerLP <= 0) {
-			cout << "AI 승";
-			break;
-		}
+		if (aiLp <= 0) break; // 게임 종료 조건
 	}
 }
 
-// 첫번째 턴 진행 함수
-void First_Turn() {
+// 플레이어 첫번째 턴
+void Player_First_Turn() {
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
@@ -303,65 +303,132 @@ void First_Turn() {
 	if (choose != EMPTY) {
 		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
 	}
-	cout << "| 첫턴이므로 공격을 수행하지 못합니다.\n";
-	cout << "| 엔터를 눌러서 턴을 종료합니다.\n";
-	cout << "|----------------------------------------";
+	cout << "| 첫턴이므로 공격단계를 종료합니다.\n";
+	cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+	cout << "|";
+	for (int i = 0; i < 60; i++) {
+		cout << "-";
+	}
 	cin.ignore();
 	cin.get( ); // Enter 입력 대기
 } 
 
-void Ai_Turn() {
+// AI 첫번째 턴
+void Ai_First_Turn() {
 	system("cls");
 	int choose = Ai_Pickup_Card();
 	aiF.push_back(Job[choose]);//필드 소환
 	draw(aiLp, playerLP);
-	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-	Ai_attack();
-	cout << "| 엔터를 눌러서 Ai턴 종료를 확인 합니다.\n";
-	cout << "|----------------------------------------\n";
+	cout << "| AI 는 " << Job[choose]->getName() << " 을(를) 소환했다!";
+	cout << "| 첫턴이므로 공격단계를 종료합니다.\n";
+	cout << "| 엔터를 눌러서 AI 턴을 종료합니다.\n";
+	cout << "|";
+	for (int i = 0; i < 60; i++) {
+		cout << "-";
+	}
 	cin.get( ); // Enter 입력 대기
 }
 
-//두번째 턴 진행 함수
+// 플레이어 턴 진행 함수
 void Player_Turn() {
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
-	int choose = Pickup_Card(); 
-	if (choose != EMPTY) {
-		playerF.push_back(Job[choose]);
-	}
-	system("cls");
-	draw(aiLp, playerLP);
-	if (choose != EMPTY) {
-		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	if (playerF.size() < 3) {
+		int choose = Pickup_Card();
+		if (choose != EMPTY) {
+			playerF.push_back(Job[choose]);
+		}
 		system("cls");
+		draw(aiLp, playerLP);
+		if (choose != EMPTY) {
+			cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+		}
+		else {
+			// 스킵메시지
+		}
+
+		if (playerF.size() > 0) {
+			system("cls");
+			Attack(playerF.back(), aiF);
+		}
+		else {
+			cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
+			cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+			cout << "|";
+			for (int i = 0; i < 60; i++) {
+				cout << "-";
+			}
+			cin.ignore();
+			cin.get();
+		}
+	}
+	else {
+		cout << "| 필드가 가득 찼으므로 소환단계를 종료합니다.\n";
+		cout << "| 플레이어의 공격 단계로 넘어갑니다.\n";
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+		cin.get();
 		Attack(playerF.back(), aiF);
 	}
-	system("cls");
-	draw(aiLp, playerLP);
+
+	if (aiLp <= 0) {
+		system("cls");
+		draw(aiLp, playerLP);
+		cout << "| 플레이어 승" << endl;
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+		return;
+	}
 }
 
-void Ai_Turn2() {
+// AI 턴 진행 함수
+void Ai_Turn() {
 	system("cls");
-	int choose = Ai_Pickup_Card();
-	aiF.push_back(Job[choose]);
-	draw(aiLp, playerLP);
-	cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-	cout << "| Ai의 공격 단계로 넘어갑니다.\n";
-	cout << "|----------------------------------------\n";
+	if (aiF.size() < 3) {
+		int choose = Ai_Pickup_Card();
+		aiF.push_back(Job[choose]);
+		draw(aiLp, playerLP);
+		cout << "| AI 턴 입니다.\n";
+		cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+		cout << "| Ai의 공격 단계로 넘어갑니다.\n";
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+	}
+	else {
+		draw(aiLp, playerLP);
+		cout << "| AI 턴 입니다.\n";
+		cout << "| 필드가 가득 찼으므로 소환단계를 종료합니다.\n";
+		cout << "| AI의 공격 단계로 넘어갑니다.\n";
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+	}
 	cin.get();
 	system("cls");
 	Ai_attack();
+	if (playerLP <= 0) {
+		system("cls");
+		draw(aiLp, playerLP);
+		cout << "| AI 승" << endl;
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+		return ;
+	}
 	system("cls");
 	draw(aiLp, playerLP);
-	cout << "| Ai의 공격이 끝났습니다.\n";
-	cout << "| 플레이어의 차례로 넘어갑니다.\n";
-	cout << "|----------------------------------------\n";
-	cin.get();
 }
-//ai 공격
-int Ai_attack() {
+// AI 공격
+void Ai_attack() {
 	system("cls");
 	draw(aiLp, playerLP);
 	std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
@@ -377,32 +444,35 @@ int Ai_attack() {
 	if (playerF.size() != 0) {
 		Card* defender = playerF[lowhp];
 		cout << "| " << attacker->getName() << " 카드로 " << defender->getName() << "을(를) 공격합니다!" << endl;
-		cin.get();
 		if (defender->getHp() + defender->getDef() > attacker->getAtk()) {
 			if (defender->getDef() >= attacker->getAtk()) {
 				defender->setDef(defender->getDef() - attacker->getAtk());
-				return 0;
 			}
 			else {
 				defender->setHp(defender->getDef() + defender->getHp() - attacker->getAtk());
 				defender->setDef(0);
-				return 0;
 			}
 		}
 		else if (defender->getHp() + defender->getDef()  <= attacker->getAtk()) {
 			int damage = attacker->getAtk() - (defender->getHp() + defender->getDef());
 			playerLP -= damage;
 			playerF.erase(playerF.begin() + lowhp);
-			return 0;
+
 		}
 	}
 	else {
-		cout << "| " << attacker->getName() << " 카드로 플레이어를 직접 공격합니다!";
-		cin.get();
+		playerLP -= attacker->getAtk();
+		cout << "| " << attacker->getName() << " 카드로 플레이어를 직접 공격합니다!" << endl;
 	}
+	cout << "| 엔터를 눌러서 Ai턴 종료를 확인 합니다.\n";
+	cout << "|";
+	for (int i = 0; i < 60; i++) {
+		cout << "-";
+	}
+	cin.get();
 }
 // 공격
-int Attack(Card* attacker, vector<Card*> defenders) {
+void Attack(Card* attacker, vector<Card*> defenders) {
 	//공격할 내 카드 선택
 	system("cls");
 	draw(aiLp, playerLP); 
@@ -426,7 +496,7 @@ int Attack(Card* attacker, vector<Card*> defenders) {
 	Card* chosenAttacker = playerF[choose0 - 1];
 	if (choose1 < 1 || choose1 > defenders.size()) {
 		cout << "| 잘못된 선택입니다. 다시 입력해주세요.\n";
-		return Attack(attacker, defenders);  // 다시 공격을 시도하게 할 수 있음
+		Attack(attacker, defenders);  // 다시 공격을 시도하게 할 수 있음
 	}
 	Card* defender = defenders[choose1-1];
 	//공격 방법 선택
@@ -439,34 +509,36 @@ int Attack(Card* attacker, vector<Card*> defenders) {
 	int choose2 = 0;
 	cin >> choose2;
 	if (choose2 == 1) {
+		system("cls");
+		draw(aiLp, playerLP);
+		cout << "| " << chosenAttacker->getName() << " 카드로 " << defender->getName() << "을 공격합니다!" << endl;
+		cin.get();
 		if (defender->getHp() + defender->getDef() > chosenAttacker->getAtk()) {
 			if (defender->getDef() >= chosenAttacker->getAtk()) {
 				defender->setDef(defender->getDef() - chosenAttacker->getAtk());
-				return 0;
 			}
 			else {
 				defender->setHp(defender->getDef() + defender->getHp() - chosenAttacker->getAtk());
 				defender->setDef(0);
-				return 0;
 			}
 		}
 		else if (defender->getHp() + defender->getDef() <= chosenAttacker->getAtk()) {
 			int damage = chosenAttacker->getAtk() - (defender->getHp() + defender->getDef());
 			aiLp -= damage;
 			aiF.erase(aiF.begin() + (choose1 - 1));
-			return 0;
 		}
-		else {
-			return defender->getHp() + defender->getDef() - chosenAttacker->getAtk();
+		cout << "| 엔터를 눌러서 턴을 종료합니다.\n";
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
 		}
+		cin.get();
 	}
 	else if (choose2 == 2) {
 		//스킬
 	}
 }
-int Heal(int skill, int hp) {
-	return skill + hp;
-}
+
 
 //카드뽑기함수
 int Pickup_Card() {
@@ -476,6 +548,7 @@ int Pickup_Card() {
 	int randomCard2 = dis(gen);
 	int randomCard3 = dis(gen);
 	int empty = EMPTY;
+	initializeJobs(); // 객체 초기화
 	cout << "| 뽑은 카드\n";
 	cout << "| 1. " << Job[randomCard1]->getName() << endl;
 	cout << "| 2. " << Job[randomCard2]->getName() << endl;
@@ -511,6 +584,7 @@ int Ai_Pickup_Card() {
 	int randomCard1 = dis(gen); //랜덤카드뽑기 
 	int randomCard2 = dis(gen);
 	int randomCard3 = dis(gen);
+	initializeJobs(); // 객체 초기화
 	int choose = 0;
 	choose = did(gen); 
 	if (choose == 1) {
