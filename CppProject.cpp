@@ -250,14 +250,7 @@ void draw(int ai_Lp, int player_Lp) {
 		cout << "-";
 	}
 	cout << "\n";
-
-	/*	cout << "|\t" << card6 << endl;
-		cout << "|\t" << card6 << endl;
-		cout << "|\t" << card6 << endl;
-		cout << "|\t" << card6 << endl;
-		cout << "|\t" << "턴을 종료합니다. " << endl;
-		cout << "|-----------------------------------------\n";	*/
-
+	 
 }
 
 void initializeJobs() {
