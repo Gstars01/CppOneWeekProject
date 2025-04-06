@@ -11,26 +11,23 @@ using namespace std;
 //카드 구현부
 class Card {
 protected:
-	int atk, def, hp, coolTime = 0;
+	int atk, hp, coolTime = 0;
 	string name;
 public:
-	Card(int a, int b, int c, string d) : atk(a), def(b), hp(c), name(d) {}
+	Card(int a, int c, string d) : atk(a), hp(c), name(d) {}
 	string getName() { return name; }
-	void setDef(int a) { def = a; }
 	void setHp(int a) { hp = a; }
 	void setCoolTime(int a) { coolTime = a; }
 	int getAtk() { return atk; }
-	int getDef() { return def; }
 	int getHp() { return hp; }
 	virtual int Skill(vector<Card*>) = 0;
 };
 
 class Warrior : public Card {
 public:
-	Warrior() : Card(6, 0, 12, "전사") {}
+	Warrior() : Card(6, 12, "전사") {}
 	int Skill(vector<Card*> p) override {
 		// 방어력 4
-		p[0]->setDef(def + 4);
 		// 쿨타임 3
 		p[0]->setCoolTime(3);
 		return 0;
@@ -39,10 +36,9 @@ public:
 
 class Paladin : public Card {
 public:
-	Paladin() : Card(5, 0, 14, "성기사") {}
+	Paladin() : Card(5, 14, "성기사") {}
 	int Skill(vector<Card*> p) override {
 		// 방어력 4 회복 2
-		p[0]->setDef(def + 4);
 		p[0]->setHp(hp + 2);
 		// 쿨타임 4
 		p[0]->setCoolTime(4);
@@ -52,7 +48,7 @@ public:
 
 class Archer : public Card {
 public:
-	Archer() : Card(7, 0, 9, "궁수") {}
+	Archer() : Card(7, 9, "궁수") {}
 	int Skill(vector<Card*> p) override {
 		// 3명 히트
 	
@@ -64,7 +60,7 @@ public:
 
 class Hunter : public Card {
 public:
-	Hunter() : Card(8, 0, 10, "헌터") {}
+	Hunter() : Card(8, 10, "헌터") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 1.2배 나머지 0.5배 히트
 		// 쿨타임 3
@@ -75,7 +71,7 @@ public:
 
 class Thief : public Card {
 public:
-	Thief() : Card(7, 0, 8, "도적") {}
+	Thief() : Card(7, 8, "도적") {}
 	int Skill(vector<Card*> p) override {
 		// 데미지 2배
 		// 쿨타임 3
@@ -86,7 +82,7 @@ public:
 
 class Assassin : public Card {
 public:
-	Assassin() : Card(8, 0, 7, "암살자") {}
+	Assassin() : Card(8, 7, "암살자") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 1.5배
 		// 쿨타임 3
@@ -97,7 +93,7 @@ public:
 
 class Rogue : public Card {
 public:
-	Rogue() : Card(6, 0, 9, "로그") {}
+	Rogue() : Card(6, 9, "로그") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 0.9배 2회 타격
 		// // 쿨타임 3
@@ -108,7 +104,7 @@ public:
 
 class Priest : public Card {
 public:
-	Priest() : Card(4, 0, 12, "성직자") {}
+	Priest() : Card(4, 12, "성직자") {}
 	int Skill(vector<Card*> p) override {
 		// 4 회복
 		// 쿨타임 4
@@ -119,7 +115,7 @@ public:
 
 class Bard : public Card {
 public:
-	Bard() : Card(4, 0, 10, "바드") {}
+	Bard() : Card(4, 10, "바드") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
@@ -130,7 +126,7 @@ public:
 
 class Mage : public Card {
 public:
-	Mage() : Card(9, 0, 6, "마법사") {}
+	Mage() : Card(9, 6, "마법사") {}
 	int Skill(vector<Card*> p) override {
 		// 데미지 2배
 		// 쿨타임 3
@@ -141,7 +137,7 @@ public:
 
 class Sorcerer : public Card {
 public:
-	Sorcerer() : Card(8, 0, 6, "소서러") {}
+	Sorcerer() : Card(8, 6, "소서러") {}
 	int Skill(vector<Card*> p) override {
 		// 3명 히트
 		// 쿨타임 3
@@ -152,7 +148,7 @@ public:
 
 class Necromancer : public Card {
 public:
-	Necromancer() : Card(8, 0, 6, "주술사") {}
+	Necromancer() : Card(8, 6, "주술사") {}
 	int Skill(vector<Card*> p) override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
@@ -166,12 +162,13 @@ Card* Job[12];
 vector<Card*> aiF = {};
 vector<Card*> playerF = {};
 void Game();
-void Player_First_Turn();
+void Player_First_Turn();	
 void Ai_First_Turn();
 void Player_Turn();
 void Ai_Turn();
 void Attack(Card*, vector<Card*>);
 void Ai_attack();
+void draw(int,int);
 int Pickup_Card();
 int Ai_Pickup_Card();
 int playerLP = 20;
@@ -179,7 +176,9 @@ int aiLp = 20;
 
 int main() {
 	int choose;
-	cout << "===Parallel Deck===\n1. Insert Coin\n2. end\ninput : ";
+	cout << "|========================Parallel Deck=========================\n";
+	draw(aiLp,playerLP);
+	cout << "\n| 1. Insert Coin\n| 2. end\n| input : ";
 	cin >> choose;
 	if (choose == 1) {
 		Game();
@@ -213,11 +212,6 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size(); i++) {
-		cout << "\tDef :" << aiF[i]->getDef() << "\t";;
-	}
-	cout << "\n";
-	cout << "|";
-	for (int i = 0; i < aiF.size(); i++) {
 		cout << "\tHp  : " << aiF[i]->getHp() << " ";;
 	}
 	cout << "\n";
@@ -231,11 +225,6 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
 		cout << "\tAtk : " << playerF[i]->getAtk() << "\t";
-	}
-	cout << "\n";
-	cout << "|";
-	for (int i = 0; i < playerF.size(); i++) {
-		cout << "\tDef :" << playerF[i]->getDef() << "\t";
 	}
 	cout << "\n";
 	cout << "|";
@@ -437,17 +426,11 @@ void Ai_attack() {
 	if (playerF.size() != 0) {
 		Card* defender = playerF[lowhp];
 		cout << "| " << attacker->getName() << " 카드로 " << defender->getName() << "을(를) 공격합니다!" << endl;
-		if (defender->getHp() + defender->getDef() > attacker->getAtk()) {
-			if (defender->getDef() >= attacker->getAtk()) {
-				defender->setDef(defender->getDef() - attacker->getAtk());
-			}
-			else {
-				defender->setHp(defender->getDef() + defender->getHp() - attacker->getAtk());
-				defender->setDef(0);
-			}
+		if (defender->getHp() > attacker->getAtk()) {
+			defender->setHp(defender->getHp() - attacker->getAtk());
 		}
-		else if (defender->getHp() + defender->getDef()  <= attacker->getAtk()) {
-			int damage = attacker->getAtk() - (defender->getHp() + defender->getDef());
+		else if (defender->getHp() <= attacker->getAtk()) {
+			int damage = attacker->getAtk() - (defender->getHp());
 			playerLP -= damage;
 			playerF.erase(playerF.begin() + lowhp);
 
@@ -506,17 +489,13 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		draw(aiLp, playerLP);
 		cout << "| " << chosenAttacker->getName() << " 카드로 " << defender->getName() << "을 공격합니다!" << endl;
 		cin.get();
-		if (defender->getHp() + defender->getDef() > chosenAttacker->getAtk()) {
-			if (defender->getDef() >= chosenAttacker->getAtk()) {
-				defender->setDef(defender->getDef() - chosenAttacker->getAtk());
-			}
-			else {
-				defender->setHp(defender->getDef() + defender->getHp() - chosenAttacker->getAtk());
-				defender->setDef(0);
-			}
+		if (defender->getHp()> chosenAttacker->getAtk()) {
+			defender->setHp( defender->getHp() - chosenAttacker->getAtk());
+				
+
 		}
-		else if (defender->getHp() + defender->getDef() <= chosenAttacker->getAtk()) {
-			int damage = chosenAttacker->getAtk() - (defender->getHp() + defender->getDef());
+		else if (defender->getHp()<= chosenAttacker->getAtk()) {
+			int damage = chosenAttacker->getAtk() - (defender->getHp());
 			aiLp -= damage;
 			aiF.erase(aiF.begin() + (choose1 - 1));
 		}
