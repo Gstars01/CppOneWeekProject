@@ -119,7 +119,7 @@ public:
 
 class Bard : public Card {
 public:
-	Bard() : Card(4, 0, 10, "음유시인") {}
+	Bard() : Card(4, 0, 10, "바드") {}
 	int Skill(vector<Card*> p) override {
 		// 1명 공격력 +1 체력 +2
 		// 쿨타임 3
@@ -152,7 +152,7 @@ public:
 
 class Necromancer : public Card {
 public:
-	Necromancer() : Card(8, 0, 6, "네크로맨서") {}
+	Necromancer() : Card(8, 0, 6, "주술사") {}
 	int Skill(vector<Card*> p) override {
 		// 공격력 1.5배 스텟 흡수
 		// 쿨타임 4
@@ -203,44 +203,44 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "|\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size(); i++) {
-		cout << "\t" << aiF[i]->getName();
+		cout << "\t" << aiF[i]->getName()<<"\t";
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size(); i++) {
-		cout << "\tAtk : " << aiF[i]->getAtk() << "  ";;
+		cout << "\tAtk : " << aiF[i]->getAtk() << "\t";;
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size(); i++) {
-		cout << "\tDef :" << aiF[i]->getDef() << "  ";;
+		cout << "\tDef :" << aiF[i]->getDef() << "\t";;
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < aiF.size(); i++) {
-		cout << "\tHp  : " << aiF[i]->getHp() << "  ";;
+		cout << "\tHp  : " << aiF[i]->getHp() << " ";;
 	}
 	cout << "\n";
 	cout << "|\n";
 	cout << "|\n";
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
-		cout << "\t" << playerF[i]->getName();
+		cout << "\t" << playerF[i]->getName() << "\t";
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
-		cout << "\tAtk : " << playerF[i]->getAtk() << "  ";
+		cout << "\tAtk : " << playerF[i]->getAtk() << "\t";
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
-		cout << "\tDef :" << playerF[i]->getDef() << "  ";
+		cout << "\tDef :" << playerF[i]->getDef() << "\t";
 	}
 	cout << "\n";
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
-		cout << "\tHp  : " << playerF[i]->getHp()<<"  ";
+		cout << "\tHp  : " << playerF[i]->getHp()<<" ";
 	}
 	cout << "\n";
 	cout << "|\n";
