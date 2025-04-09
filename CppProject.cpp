@@ -4,6 +4,9 @@
 #include<ctime>
 #include<string>
 
+#define PLAYER_TURN 1
+#define AI_TURN 2
+
 #define EMPTY 13
 
 using namespace std;
@@ -17,166 +20,265 @@ public:
 	Card(int a, int c, string d) : atk(a), hp(c), name(d) {}
 	string getName() { return name; }
 	void setHp(int a) { hp = a; }
+	void setAtk(int a) { atk = a; }
 	void setCoolTime(int a) { coolTime = a; }
 	int getAtk() { return atk; }
 	int getHp() { return hp; }
-	virtual int Skill(vector<Card*>) = 0;
+	virtual void Skill() = 0;
 };
+
+Card* Job[12];
+vector<Card*> aiF = {};
+vector<Card*> playerF = {};
+void Game();
+void Player_First_Turn();
+void Ai_First_Turn();
+void Player_Turn();
+void Ai_Turn();
+void Attack(Card*, vector<Card*>);
+void Ai_attack();
+void draw(int, int);
+int Pickup_Card();
+int Ai_Pickup_Card();
+int playerLP = 20;
+int aiLp = 20;
+int turn;
 
 class Warrior : public Card {
 public:
 	Warrior() : Card(6, 12, "전사") {}
-	int Skill(vector<Card*> p) override {
-		// 방어력 4
+	void Skill() override {
+		// 체력 6
+		setHp(hp + 6);
 		// 쿨타임 3
-		p[0]->setCoolTime(3);
-		return 0;
+		setCoolTime(3);
 	}
 };
 
 class Paladin : public Card {
 public:
 	Paladin() : Card(5, 14, "성기사") {}
-	int Skill(vector<Card*> p) override {
-		// 방어력 4 회복 2
-		p[0]->setHp(hp + 2);
+	void Skill() override {
+		// 체력 8
+		setHp(hp + 8);
 		// 쿨타임 4
-		p[0]->setCoolTime(4);
-		return 0;
+		setCoolTime(4);
 	}
 };
 
 class Archer : public Card {
 public:
 	Archer() : Card(7, 9, "궁수") {}
-	int Skill(vector<Card*> p) override {
-		// 3명 히트
-	
-		// 쿨타임 3
-		setCoolTime(3);
-		return 0;
+	void Skill() override {
+		// 상대 전체 데미지 6
+		if (turn == PLAYER_TURN) {
+			for (Card* p : aiF) {
+				p->setHp(p->getHp() - 6);
+			}
+		}
+		else {
+			for (Card* p : playerF) {
+				p->setHp(p->getHp() - 6);
+			}
+		}
+		
+		// 쿨타임 5
+		setCoolTime(5);
 	}
 };
 
 class Hunter : public Card {
 public:
 	Hunter() : Card(8, 10, "헌터") {}
-	int Skill(vector<Card*> p) override {
-		// 1명 1.2배 나머지 0.5배 히트
+	void Skill() override {
+		// 상대 전체 데미지 4
+		if (turn == PLAYER_TURN) {
+			for (Card* p : aiF) {
+				p->setHp(p->getHp() - 4);
+			}
+		}
+		else {
+			for (Card* p : playerF) {
+				p->setHp(p->getHp() - 4);
+			}
+		}
+
 		// 쿨타임 3
 		setCoolTime(3);
-		return 0;
 	}
 };
 
 class Thief : public Card {
 public:
 	Thief() : Card(7, 8, "도적") {}
-	int Skill(vector<Card*> p) override {
-		// 데미지 2배
-		// 쿨타임 3
-		setCoolTime(3);
-		return 0;
+	void Skill() override {
+		// 체력 1
+		setHp(hp + 1);
+		// 랜덤 상대 1명 데미지 8
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() - 8);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() - 8);
+		}
+		// 쿨타임 2
+		setCoolTime(2);
 	}
 };
 
 class Assassin : public Card {
 public:
 	Assassin() : Card(8, 7, "암살자") {}
-	int Skill(vector<Card*> p) override {
-		// 1명 1.5배
-		// 쿨타임 3
+	void Skill() override {
+		// 랜덤 상대 1명 데미지 10
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() - 10);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() - 10);
+		}
 		setCoolTime(3);
-		return 0;
 	}
 };
 
 class Rogue : public Card {
 public:
 	Rogue() : Card(6, 9, "로그") {}
-	int Skill(vector<Card*> p) override {
-		// 1명 0.9배 2회 타격
-		// // 쿨타임 3
+	void Skill() override {
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() - 7);
+			ai->setAtk(ai->getAtk() - 2);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() - 7);
+			player->setAtk(player->getAtk() - 2);;
+		}
 		setCoolTime(3);
-		return 0;
 	}
 };
 
 class Priest : public Card {
 public:
 	Priest() : Card(4, 12, "성직자") {}
-	int Skill(vector<Card*> p) override {
-		// 4 회복
-		// 쿨타임 4
+	void Skill() override {
+		if (turn == PLAYER_TURN) {
+			for (Card* p : playerF) {
+				p->setHp(p->getHp() + 4);
+			}
+		}
+		else {
+			for (Card* p : aiF) {
+				p->setHp(p->getHp() + 4);
+			}
+		}
 		setCoolTime(4);
-		return 0;
 	}
 };
 
 class Bard : public Card {
 public:
 	Bard() : Card(4, 10, "바드") {}
-	int Skill(vector<Card*> p) override {
-		// 1명 공격력 +1 체력 +2
-		// 쿨타임 3
-		setCoolTime(3);
-		return 0;
+	void Skill() override {
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() + 4);
+			player->setAtk(player->getAtk() + 2);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() + 4);
+			ai->setAtk(ai->getAtk() + 2);
+		}
+		setCoolTime(4);
 	}
 };
 
 class Mage : public Card {
 public:
 	Mage() : Card(9, 6, "마법사") {}
-	int Skill(vector<Card*> p) override {
-		// 데미지 2배
-		// 쿨타임 3
-		setCoolTime(3);
-		return 0;
+	void Skill() override {
+		// 랜덤 상대 1명 데미지 12
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() - 12);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() - 12);
+		}
+		setCoolTime(6);
 	}
 };
 
 class Sorcerer : public Card {
 public:
 	Sorcerer() : Card(8, 6, "소서러") {}
-	int Skill(vector<Card*> p) override {
-		// 3명 히트
-		// 쿨타임 3
-		setCoolTime(3);
-		return 0;
+	void Skill() override {
+		// 랜덤 상대 1명 데미지 10
+		if (turn == PLAYER_TURN) {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, aiF.size() - 1);
+			Card* ai = aiF[did(gen)];
+			ai->setHp(ai->getHp() - 10);
+			ai->setAtk(ai->getAtk() - 2);
+		}
+		else {
+			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
+			std::uniform_int_distribution<> did(0, playerF.size() - 1);
+			Card* player = playerF[did(gen)];
+			player->setHp(player->getHp() - 10);
+			player->setAtk(player->getAtk() - 2);
+		}
+		setCoolTime(5);
 	}
 };
 
 class Necromancer : public Card {
 public:
 	Necromancer() : Card(8, 6, "주술사") {}
-	int Skill(vector<Card*> p) override {
-		// 공격력 1.5배 스텟 흡수
-		// 쿨타임 4
-		setCoolTime(4);
-		return 0;
+	void Skill() override {
+		if (turn == PLAYER_TURN) {
+			aiLp -= 3; 
+			playerLP += 3;
+		}
+		else {
+			playerLP -= 3;
+			aiLp += 3;
+		}
+		setCoolTime(5);
 	}
 };
 
 // 게임 시스템 
-Card* Job[12];
-vector<Card*> aiF = {};
-vector<Card*> playerF = {};
-void Game();
-void Player_First_Turn();	
-void Ai_First_Turn();
-void Player_Turn();
-void Ai_Turn();
-void Attack(Card*, vector<Card*>);
-void Ai_attack();
-void draw(int,int);
-int Pickup_Card();
-int Ai_Pickup_Card();
-int playerLP = 20;
-int aiLp = 20;
-
 int main() {
 	int choose;
-	cout << "|========================Parallel Deck=========================\n";
+	cout << "=======================Parallel Deck=========================\n";
 	draw(aiLp,playerLP);
 	cout << "\n| 1. Insert Coin\n| 2. end\n| input : ";
 	cin >> choose;
@@ -272,6 +374,7 @@ void Game() {
 
 // 플레이어 첫번째 턴
 void Player_First_Turn() {
+	turn = PLAYER_TURN;
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
@@ -297,6 +400,7 @@ void Player_First_Turn() {
 
 // AI 첫번째 턴
 void Ai_First_Turn() {
+	turn = AI_TURN;
 	system("cls");
 	int choose = Ai_Pickup_Card();
 	aiF.push_back(Job[choose]);//필드 소환
@@ -313,6 +417,7 @@ void Ai_First_Turn() {
 
 // 플레이어 턴 진행 함수
 void Player_Turn() {
+	turn = PLAYER_TURN;
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
@@ -370,6 +475,7 @@ void Player_Turn() {
 
 // AI 턴 진행 함수
 void Ai_Turn() {
+	turn = AI_TURN;
 	system("cls");
 	if (aiF.size() < 3) {
 		int choose = Ai_Pickup_Card();
@@ -491,8 +597,6 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		cin.get();
 		if (defender->getHp()> chosenAttacker->getAtk()) {
 			defender->setHp( defender->getHp() - chosenAttacker->getAtk());
-				
-
 		}
 		else if (defender->getHp()<= chosenAttacker->getAtk()) {
 			int damage = chosenAttacker->getAtk() - (defender->getHp());
@@ -507,7 +611,18 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		cin.get();
 	}
 	else if (choose2 == 2) {
+		system("cls");
+		draw(aiLp, playerLP);
 		//스킬
+		cout << "| " << chosenAttacker->getName() << "카드가 스킬을 사용합니다." << endl;
+		cin.get();
+		chosenAttacker->Skill();
+		for (int i = 0; i < aiF.size(); i++) {
+			if (aiF[i]->getHp() < 0) {
+				aiLp += aiF[i]->getHp();
+				aiF.erase(aiF.begin() + i);
+			}
+		}
 	}
 }
 
