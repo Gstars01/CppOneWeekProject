@@ -444,32 +444,43 @@ void Player_Turn() {
 		draw(aiLp, playerLP);
 		if (choose != EMPTY) {
 			cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-		}
-
-		if (playerF.size() > 0) {
 			system("cls");
-			draw(aiLp, playerLP);
-			cout << "| 소환을 스킵합니다. \n";
-			cout << "| 플레이어의 공격 단계로 넘어갑니다.\n";
-			cout << "|";
-			for (int i = 0; i < 60; i++) {
-				cout << "-";
-			}
-			cin.ignore();
-			cin.get();
 			Attack(playerF.back(), aiF);
+			if (playerF.size() > 0) {
+				system("cls");
+				Attack(playerF.back(), aiF);
+			}
+			else {
+				cout << "| 소환을 스킵합니다. \n";
+				cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
+				cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+				cout << "|";
+				for (int i = 0; i < 60; i++) {
+					cout << "-";
+				}
+				cin.ignore();
+				cin.get();
+				Attack(playerF.back(), aiF);
+			}
 		}
 		else {
 			cout << "| 소환을 스킵합니다. \n";
-			cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
-			cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
-			cout << "|";
-			for (int i = 0; i < 60; i++) {
-				cout << "-";
+			if (playerF.size() > 0) {
+				system("cls");
+				Attack(playerF.back(), aiF);
 			}
-			cin.ignore();
-			cin.get();
+			else {
+				cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+				cout << "|";
+				for (int i = 0; i < 60; i++) {
+					cout << "-";
+				}
+				cin.ignore();
+				cin.get();
+			}
+			
 		}
+
 	}
 	else {
 		cout << "| 필드가 가득 찼으므로 소환단계를 종료합니다.\n";
