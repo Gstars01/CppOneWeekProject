@@ -15,9 +15,9 @@ using namespace std;
 class Card {
 protected:
 	int atk, hp, coolTime = 0;
-	string name;
+	string name, skillFun;
 public:
-	Card(int a, int c, string d) : atk(a), hp(c), name(d) {}
+	Card(int a, int b, string c, string d) : atk(a), hp(b), name(c), skillFun(d) {}
 	string getName() { return name; }
 	void setHp(int a) { hp = a; }
 	void setAtk(int a) { atk = a; }
@@ -25,6 +25,7 @@ public:
 	int getAtk() { return atk; }
 	int getHp() { return hp; }
 	int getCoolTime() { return coolTime; }
+	string getSkillFun() { return skillFun;  }
 	virtual void Skill() = 0;
 };
 
@@ -47,7 +48,7 @@ int turn;
 
 class Warrior : public Card {
 public:
-	Warrior() : Card(6, 12, "전사") {}
+	Warrior() : Card(6, 12, "전사", "(본인 체력 6 증가/쿨타임 3턴)") {}
 	void Skill() override {
 		// 체력 6
 		setHp(hp + 6);
@@ -58,7 +59,7 @@ public:
 
 class Paladin : public Card {
 public:
-	Paladin() : Card(5, 14, "성기사") {}
+	Paladin() : Card(5, 14, "성기사", "(본인 체력 8 증가/쿨타임 4턴)") {}
 	void Skill() override {
 		// 체력 8
 		setHp(hp + 8);
@@ -69,7 +70,7 @@ public:
 
 class Archer : public Card {
 public:
-	Archer() : Card(7, 9, "궁수") {}
+	Archer() : Card(7, 9, "궁수", "(모든 상대 6 데미지/쿨타임 5턴)") {}
 	void Skill() override {
 		// 상대 전체 데미지 6
 		if (turn == PLAYER_TURN) {
@@ -90,7 +91,7 @@ public:
 
 class Hunter : public Card {
 public:
-	Hunter() : Card(8, 10, "헌터") {}
+	Hunter() : Card(8, 10, "헌터", "(모든 상대 4 데미지/쿨타임 3턴)") {}
 	void Skill() override {
 		// 상대 전체 데미지 4
 		if (turn == PLAYER_TURN) {
@@ -111,7 +112,7 @@ public:
 
 class Thief : public Card {
 public:
-	Thief() : Card(7, 8, "도적") {}
+	Thief() : Card(7, 8, "도적", "(랜덤 상대 8데미지 및 본인 체력 1 증가/쿨타임 3턴)") {}
 	void Skill() override {
 		// 체력 1
 		setHp(hp + 1);
@@ -128,14 +129,14 @@ public:
 			Card* player = playerF[did(gen)];
 			player->setHp(player->getHp() - 8);
 		}
-		// 쿨타임 2
-		setCoolTime(2);
+		// 쿨타임 3
+		setCoolTime(3);
 	}
 };
 
 class Assassin : public Card {
 public:
-	Assassin() : Card(8, 7, "암살자") {}
+	Assassin() : Card(8, 7, "암살자", "(랜덤 상대 10 데미지/쿨타임 3턴)") {}
 	void Skill() override {
 		// 랜덤 상대 1명 데미지 10
 		if (turn == PLAYER_TURN) {
@@ -156,7 +157,7 @@ public:
 
 class Rogue : public Card {
 public:
-	Rogue() : Card(6, 9, "로그") {}
+	Rogue() : Card(6, 9, "로그", "(랜덤 상대 7 데미지 및 2 공격력 감소/쿨타임 3턴)") {}
 	void Skill() override {
 		if (turn == PLAYER_TURN) {
 			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
@@ -178,7 +179,7 @@ public:
 
 class Priest : public Card {
 public:
-	Priest() : Card(4, 12, "성직자") {}
+	Priest() : Card(4, 12, "성직자", "(모든 본인 카드 체력 4 증가/쿨타임 4턴)") {}
 	void Skill() override {
 		if (turn == PLAYER_TURN) {
 			for (Card* p : playerF) {
@@ -196,7 +197,7 @@ public:
 
 class Bard : public Card {
 public:
-	Bard() : Card(4, 10, "바드") {}
+	Bard() : Card(4, 10, "바드", "(랜덤 본인 카드 체력 4 증가 및 공격력 2 증가/쿨타임 4턴)") {}
 	void Skill() override {
 		if (turn == PLAYER_TURN) {
 			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
@@ -218,7 +219,7 @@ public:
 
 class Mage : public Card {
 public:
-	Mage() : Card(9, 6, "마법사") {}
+	Mage() : Card(9, 6, "마법사", "(랜덤 상대 12 데미지/쿨타임 6턴)") {}
 	void Skill() override {
 		// 랜덤 상대 1명 데미지 12
 		if (turn == PLAYER_TURN) {
@@ -239,7 +240,7 @@ public:
 
 class Sorcerer : public Card {
 public:
-	Sorcerer() : Card(8, 6, "소서러") {}
+	Sorcerer() : Card(8, 6, "소서러", "(랜덤 상대 10 데미지 및 공격력 2 감소/쿨타임 5턴)") {}
 	void Skill() override {
 		// 랜덤 상대 1명 데미지 10
 		if (turn == PLAYER_TURN) {
@@ -262,7 +263,7 @@ public:
 
 class Necromancer : public Card {
 public:
-	Necromancer() : Card(8, 6, "주술사") {}
+	Necromancer() : Card(8, 6, "주술사", "(상대LP 3 흡수/쿨타임 5턴)") {}
 	void Skill() override {
 		if (turn == PLAYER_TURN) {
 			aiLp -= 3; 
@@ -318,6 +319,11 @@ void draw(int ai_Lp, int player_Lp) {
 		cout << "\tHp  : " << aiF[i]->getHp() << " ";;
 	}
 	cout << "\n";
+	cout << "|";
+	for (int i = 0; i < aiF.size(); i++) {
+		cout << "\tcool: " << aiF[i]->getCoolTime() << " ";;
+	}
+	cout << "\n";
 	cout << "|\n";
 	cout << "|\n";
 	cout << "|";
@@ -333,6 +339,11 @@ void draw(int ai_Lp, int player_Lp) {
 	cout << "|";
 	for (int i = 0; i < playerF.size(); i++) {
 		cout << "\tHp  : " << playerF[i]->getHp()<<" ";
+	}
+	cout << "\n";
+	cout << "|";
+	for (int i = 0; i < playerF.size(); i++) {
+		cout << "\tcool: " << playerF[i]->getCoolTime() << " ";;
 	}
 	cout << "\n";
 	cout << "|\n";
@@ -618,7 +629,7 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 	draw(aiLp, playerLP);
 	cout << "| 공격명령\n";
 	cout << "| 1. 일반 공격\n";
-	cout << "| 2. 스킬 공격\n";
+	cout << "| 2. 스킬 공격" << chosenAttacker->getSkillFun() << '\n';
 	cout << "| 공격 방법을 선택하세요. : ";
 	int choose2 = 0;
 	cin >> choose2;
@@ -650,8 +661,9 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		cin.get();
 		chosenAttacker->Skill();
 		for (int i = 0; i < aiF.size(); i++) {
-			if (aiF[i]->getHp() < 0) {
+			if (aiF[i]->getHp() <= 0) {
 				aiLp += aiF[i]->getHp();
+				delete aiF[i];
 				aiF.erase(aiF.begin() + i);
 			}
 		}
