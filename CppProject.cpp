@@ -11,7 +11,7 @@
 
 using namespace std;
 
-//카드 구현부
+//카드 구현부 ( 부모클래스 )
 class Card {
 protected:
 	int atk, hp, coolTime = 0;
@@ -45,11 +45,11 @@ int Ai_Pickup_Card();
 int playerLP = 20;
 int aiLp = 20;
 int turn;
-
+// ( 자식클래스 ) 부모클래스 카드를 상속받음 
 class Warrior : public Card {
 public:
 	Warrior() : Card(6, 12, "전사", "(본인 체력 6 증가/쿨타임 3턴)") {}
-	void Skill() override {
+	void Skill() override {	//함수 오버라이딩 
 		// 체력 6
 		setHp(hp + 6);
 		// 쿨타임 3
@@ -277,7 +277,7 @@ public:
 	}
 };
 
-// 게임 시스템 
+// 게임 시스템 (시작/ 종료의 관리)
 int main() {
 	int choose;
 	cout << "=======================Parallel Deck=========================\n";
@@ -378,7 +378,7 @@ void freeJobs(Card* p) {
 	}
 }
 
-// 게임진행
+// 게임진행	(첫턴이후 체력조건 만족시까지 무한반복)
 void Game() {
 	system("cls");
 	draw(aiLp, playerLP);
@@ -391,7 +391,7 @@ void Game() {
 	}
 }
 
-// 플레이어 첫번째 턴
+// 플레이어 첫번째 턴	(첫턴은 공격하지 않으므로 별도 함수로 작성)
 void Player_First_Turn() {
 	turn = PLAYER_TURN;
 	system("cls");
@@ -572,7 +572,18 @@ void Ai_attack() {
 			lowhp = i;
 		}
 	}
-	if (playerF.size() != 0) {
+	if (attacker->getCoolTime() == 0) {
+		attacker->Skill();
+		cout << "| " << attacker->getName() << "카드가 스킬을 사용합니다." << endl;
+		for (int i = 0; i < playerF.size(); i++) {
+			if (playerF[i]->getHp() <= 0) {
+				playerLP += playerF[i]->getHp();
+				delete playerF[i];
+				playerF.erase(playerF.begin() + i);
+			}
+		}
+	}
+	else if (playerF.size() != 0) {
 		Card* defender = playerF[lowhp];
 		cout << "| " << attacker->getName() << " 카드로 " << defender->getName() << "을(를) 공격합니다!" << endl;
 		if (defender->getHp() > attacker->getAtk()) {

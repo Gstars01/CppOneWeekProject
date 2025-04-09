@@ -1,68 +1,68 @@
 ﻿  CppProject.cpp
-D:\smham\CppOneWeekProject\CppProject.cpp(122,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(128,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(144,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(150,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(164,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(171,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(204,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(211,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(227,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(233,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(248,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(255,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(566,52): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\smham\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         with
-D:\smham\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         [
-D:\smham\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:             _Ty=int
-D:\smham\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         ]
-D:\smham\CppOneWeekProject\CppProject.cpp(741,1): warning C4715: 'Ai_Pickup_Card': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  CppProject.vcxproj -> D:\smham\CppOneWeekProject\x64\Debug\CppProject.exe
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(122,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(122,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(128,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(128,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(144,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(144,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(150,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(150,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(164,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(164,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(171,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(171,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(204,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(204,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(211,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(211,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(227,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(227,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(233,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(233,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(248,54): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(248,54): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(255,58): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(255,58): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(566,52): warning C4267: '인수': 'size_t'에서 '_Ty'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         with
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         [
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:             _Ty=int
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(566,52): warning C4267:         ]
+C:\Users\user\source\repos\CppOneWeekProject\CppProject.cpp(752,1): warning C4715: 'Ai_Pickup_Card': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  CppProject.vcxproj -> C:\Users\user\Source\Repos\CppOneWeekProject\x64\Debug\CppProject.exe
