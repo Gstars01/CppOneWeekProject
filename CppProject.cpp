@@ -657,7 +657,16 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		}
 	}
 	else if (choose2 == 2) {
+		system("cls");
+		draw(aiLp, playerLP);
 		cout << "| " << chosenAttacker->getName() << "카드의 스킬 쿨타임이 남아있습니다." << endl;
+		cout << "| 엔터를 눌러 공격페이즈로 다시 돌아갑니다." << endl;
+		cout << "|";
+		for (int i = 0; i < 60; i++) {
+			cout << "-";
+		}
+		cin.ignore();
+		cin.get();
 		Attack(attacker, defenders);
 	}
 	else {
