@@ -450,8 +450,7 @@ void Player_Turn() {
 			system("cls");
 			draw(aiLp, playerLP);
 			cout << "| 소환을 스킵합니다. \n";
-			cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
-			cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+			cout << "| 플레이어의 공격 단계로 넘어갑니다.\n";
 			cout << "|";
 			for (int i = 0; i < 60; i++) {
 				cout << "-";
