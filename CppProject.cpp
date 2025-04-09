@@ -24,6 +24,7 @@ public:
 	void setCoolTime(int a) { coolTime = a; }
 	int getAtk() { return atk; }
 	int getHp() { return hp; }
+	int getCoolTime() { return coolTime; }
 	virtual void Skill() = 0;
 };
 
@@ -359,6 +360,13 @@ void initializeJobs() {
 	Job[11] = new Necromancer();
 }
 
+void freeJobs(Card* p) {
+	for (int i = 0; i < 12; i++) {
+		if (Job[i] == p) continue;
+		delete Job[i];
+	}
+}
+
 // 게임진행
 void Game() {
 	system("cls");
@@ -381,12 +389,16 @@ void Player_First_Turn() {
 	int choose = Pickup_Card(); // 카드 뽑기( 인풋)
 	if (choose != EMPTY) {
 		playerF.push_back(Job[choose]);
+		freeJobs(Job[choose]);
 	}
 	//여기서 그려지는게 맞음 
 	system("cls");
 	draw(aiLp, playerLP);
 	if (choose != EMPTY) {
 		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
+	}
+	else {
+		cout << "| 카드 소환을 스킵했습니다. \n";
 	}
 	cout << "| 첫턴이므로 공격단계를 종료합니다.\n";
 	cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
@@ -404,6 +416,7 @@ void Ai_First_Turn() {
 	system("cls");
 	int choose = Ai_Pickup_Card();
 	aiF.push_back(Job[choose]);//필드 소환
+	freeJobs(Job[choose]);
 	draw(aiLp, playerLP);
 	cout << "| AI 는 " << Job[choose]->getName() << " 을(를) 소환했다!";
 	cout << "| 첫턴이므로 공격단계를 종료합니다.\n";
@@ -425,14 +438,12 @@ void Player_Turn() {
 		int choose = Pickup_Card();
 		if (choose != EMPTY) {
 			playerF.push_back(Job[choose]);
+			freeJobs(Job[choose]);
 		}
 		system("cls");
 		draw(aiLp, playerLP);
 		if (choose != EMPTY) {
 			cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
-		}
-		else {
-			// 스킵메시지
 		}
 
 		if (playerF.size() > 0) {
@@ -440,6 +451,7 @@ void Player_Turn() {
 			Attack(playerF.back(), aiF);
 		}
 		else {
+			cout << "| 소환을 스킵합니다. \n";
 			cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
 			cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
 			cout << "|";
@@ -480,6 +492,7 @@ void Ai_Turn() {
 	if (aiF.size() < 3) {
 		int choose = Ai_Pickup_Card();
 		aiF.push_back(Job[choose]);
+		freeJobs(Job[choose]);
 		draw(aiLp, playerLP);
 		cout << "| AI 턴 입니다.\n";
 		cout << "| Ai 는 " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
@@ -610,7 +623,7 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		}
 		cin.get();
 	}
-	else if (choose2 == 2) {
+	else if (choose2 == 2 && chosenAttacker->getCoolTime() == 0) {
 		system("cls");
 		draw(aiLp, playerLP);
 		//스킬
@@ -623,6 +636,14 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 				aiF.erase(aiF.begin() + i);
 			}
 		}
+	}
+	else if (choose2 == 2) {
+		cout << "| " << chosenAttacker->getName() << "카드의 스킬 쿨타임이 남아있습니다." << endl;
+		Attack(attacker, defenders);
+	}
+	else {
+		cout << "| 해당 명령은 존재하지 않습니다." << endl;
+		Attack(attacker, defenders);
 	}
 }
 
@@ -653,14 +674,8 @@ int Pickup_Card() {
 	else if (choose == 3) {
 		return randomCard3;
 	}
-	else if (choose == 4) {
-		return empty;
-	}
 	else {
-		system("cls");
-		draw(aiLp,playerLP);
-		cout << "| 입력이 잘못되었습니다 !!\n";
-		return Pickup_Card();
+		return empty;
 	}
 }
 
