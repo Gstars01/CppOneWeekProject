@@ -448,6 +448,16 @@ void Player_Turn() {
 
 		if (playerF.size() > 0) {
 			system("cls");
+			draw(aiLp, playerLP);
+			cout << "| 소환을 스킵합니다. \n";
+			cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
+			cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+			cout << "|";
+			for (int i = 0; i < 60; i++) {
+				cout << "-";
+			}
+			cin.ignore();
+			cin.get();
 			Attack(playerF.back(), aiF);
 		}
 		else {
@@ -469,6 +479,7 @@ void Player_Turn() {
 		for (int i = 0; i < 60; i++) {
 			cout << "-";
 		}
+		cin.ignore();
 		cin.get();
 		Attack(playerF.back(), aiF);
 	}
