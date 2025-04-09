@@ -445,7 +445,6 @@ void Player_Turn() {
 		if (choose != EMPTY) {
 			cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
 			system("cls");
-			Attack(playerF.back(), aiF);
 			if (playerF.size() > 0) {
 				system("cls");
 				Attack(playerF.back(), aiF);
@@ -460,7 +459,6 @@ void Player_Turn() {
 				}
 				cin.ignore();
 				cin.get();
-				Attack(playerF.back(), aiF);
 			}
 		}
 		else {
