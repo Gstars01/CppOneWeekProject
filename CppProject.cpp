@@ -4,34 +4,45 @@
 #include<ctime>
 #include<string>
 
+// 턴 표시 상수
 #define PLAYER_TURN 1
 #define AI_TURN 2
 
+// 소환 스킵 시 상수
 #define EMPTY 13
 
 using namespace std;
 
-//카드 구현부 ( 부모클래스 )
+//카드 - 부모클래스
 class Card {
 protected:
 	int atk, hp, coolTime = 0;
 	string name, skillFun;
 public:
+	// 생성자
 	Card(int a, int b, string c, string d) : atk(a), hp(b), name(c), skillFun(d) {}
-	string getName() { return name; }
+	// 멤버 변수 변경
 	void setHp(int a) { hp = a; }
 	void setAtk(int a) { atk = a; }
 	void setCoolTime(int a) { coolTime = a; }
+	// 멤버 변수 불러오기
 	int getAtk() { return atk; }
 	int getHp() { return hp; }
 	int getCoolTime() { return coolTime; }
+	string getName() { return name; }
 	string getSkillFun() { return skillFun;  }
+	// 쿨타임 감소(연산자 오버로딩)
+	void operator- (int i) { if(coolTime > 0) coolTime -= i; }
+	// 스킬(순수 가상 함수 사용)
 	virtual void Skill() = 0;
 };
 
+// 카드 직업 목록
 Card* Job[12];
-vector<Card*> aiF = {};
+// 플레이어, AI의 필드 (카드 소환 시 추가됨)
 vector<Card*> playerF = {};
+vector<Card*> aiF = {};
+// 프로토타입
 void Game();
 void Player_First_Turn();
 void Ai_First_Turn();
@@ -42,14 +53,15 @@ void Ai_attack();
 void draw(int, int);
 int Pickup_Card();
 int Ai_Pickup_Card();
+// 플레이어, AI의 LP (0이 되면 패배)
 int playerLP = 20;
 int aiLp = 20;
 int turn;
-// ( 자식클래스 ) 부모클래스 카드를 상속받음 
+// 직업 - 자식클래스 
 class Warrior : public Card {
 public:
 	Warrior() : Card(6, 12, "전사", "(본인 체력 6 증가/쿨타임 3턴)") {}
-	void Skill() override {	//함수 오버라이딩 
+	void Skill() override { 
 		// 체력 6
 		setHp(hp + 6);
 		// 쿨타임 3
@@ -151,6 +163,7 @@ public:
 			Card* player = playerF[did(gen)];
 			player->setHp(player->getHp() - 10);
 		}
+		//쿨타임 3
 		setCoolTime(3);
 	}
 };
@@ -159,6 +172,7 @@ class Rogue : public Card {
 public:
 	Rogue() : Card(6, 9, "로그", "(랜덤 상대 7 데미지 및 2 공격력 감소/쿨타임 3턴)") {}
 	void Skill() override {
+		// 랜덤 상대 1명 7데미지, 공격력 2 감소
 		if (turn == PLAYER_TURN) {
 			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
 			std::uniform_int_distribution<> did(0, aiF.size() - 1);
@@ -173,6 +187,7 @@ public:
 			player->setHp(player->getHp() - 7);
 			player->setAtk(player->getAtk() - 2);;
 		}
+		// 쿨타임 3
 		setCoolTime(3);
 	}
 };
@@ -181,6 +196,7 @@ class Priest : public Card {
 public:
 	Priest() : Card(4, 12, "성직자", "(모든 본인 카드 체력 4 증가/쿨타임 4턴)") {}
 	void Skill() override {
+		// 모든 본인 카드 체력 4 증가
 		if (turn == PLAYER_TURN) {
 			for (Card* p : playerF) {
 				p->setHp(p->getHp() + 4);
@@ -191,6 +207,7 @@ public:
 				p->setHp(p->getHp() + 4);
 			}
 		}
+		// 쿨타임 4
 		setCoolTime(4);
 	}
 };
@@ -199,6 +216,7 @@ class Bard : public Card {
 public:
 	Bard() : Card(4, 10, "바드", "(랜덤 본인 카드 체력 4 증가 및 공격력 2 증가/쿨타임 4턴)") {}
 	void Skill() override {
+		// 랜덤 본인 카드 1명 체력 4 증가, 공격력 2 증가
 		if (turn == PLAYER_TURN) {
 			std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
 			std::uniform_int_distribution<> did(0, playerF.size() - 1);
@@ -213,6 +231,7 @@ public:
 			ai->setHp(ai->getHp() + 4);
 			ai->setAtk(ai->getAtk() + 2);
 		}
+		// 쿨타임 4
 		setCoolTime(4);
 	}
 };
@@ -234,6 +253,7 @@ public:
 			Card* player = playerF[did(gen)];
 			player->setHp(player->getHp() - 12);
 		}
+		//쿨타임 6
 		setCoolTime(6);
 	}
 };
@@ -257,6 +277,7 @@ public:
 			player->setHp(player->getHp() - 10);
 			player->setAtk(player->getAtk() - 2);
 		}
+		// 쿨타임 5
 		setCoolTime(5);
 	}
 };
@@ -265,6 +286,7 @@ class Necromancer : public Card {
 public:
 	Necromancer() : Card(8, 6, "주술사", "(상대LP 3 흡수/쿨타임 5턴)") {}
 	void Skill() override {
+		// 상대LP 3 흡수
 		if (turn == PLAYER_TURN) {
 			aiLp -= 3; 
 			playerLP += 3;
@@ -273,6 +295,7 @@ public:
 			playerLP -= 3;
 			aiLp += 3;
 		}
+		// 쿨타임 5
 		setCoolTime(5);
 	}
 };
@@ -285,9 +308,11 @@ int main() {
 	cout << "\n| 1. Insert Coin\n| 2. end\n| input : ";
 	cin >> choose;
 	if (choose == 1) {
+		// 시작
 		Game();
 	}
 	else if (choose == 2) {
+		// 종료
 		return 0;
 	}
 }
@@ -356,6 +381,7 @@ void draw(int ai_Lp, int player_Lp) {
 	 
 }
 
+// 직업 목록 초기화
 void initializeJobs() {
 	Job[0] = new Warrior();
 	Job[1] = new Paladin();
@@ -371,9 +397,10 @@ void initializeJobs() {
 	Job[11] = new Necromancer();
 }
 
+// 사용하지 않는 직업 목록 메모리 초기화
 void freeJobs(Card* p) {
 	for (int i = 0; i < 12; i++) {
-		if (Job[i] == p) continue;
+		if (Job[i] == p) continue; // 사용하는 직업일 경우 초기화하지 않음
 		delete Job[i];
 	}
 }
@@ -386,31 +413,39 @@ void Game() {
 	while (1){
 		Ai_Turn();
 		if (playerLP <= 0) break; // 게임 종료 조건
+		for (int i = 0; i < aiF.size(); i++) {
+			*aiF[i] - 1; // 쿨타임 감소(연산자 오버로딩)
+		}
 		Player_Turn();
 		if (aiLp <= 0) break; // 게임 종료 조건
+		for (int i = 0; i < playerF.size(); i++) {
+			*playerF[i] - 1; // 쿨타임 감소(연산자 오버로딩)
+		}
 	}
 }
 
-// 플레이어 첫번째 턴	(첫턴은 공격하지 않으므로 별도 함수로 작성)
+// 플레이어 첫번째 턴 - 소환 후 공격 단계 스킵
 void Player_First_Turn() {
 	turn = PLAYER_TURN;
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
-	int choose = Pickup_Card(); // 카드 뽑기( 인풋)
+	int choose = Pickup_Card(); // 카드 뽑기
 	if (choose != EMPTY) {
 		playerF.push_back(Job[choose]);
 		freeJobs(Job[choose]);
 	}
-	//여기서 그려지는게 맞음 
 	system("cls");
 	draw(aiLp, playerLP);
+	// 카드 소환 시
 	if (choose != EMPTY) {
 		cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
 	}
+	// 카드 소환 스킵 시
 	else {
 		cout << "| 카드 소환을 스킵했습니다. \n";
 	}
+
 	cout << "| 첫턴이므로 공격단계를 종료합니다.\n";
 	cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
 	cout << "|";
@@ -418,15 +453,15 @@ void Player_First_Turn() {
 		cout << "-";
 	}
 	cin.ignore();
-	cin.get( ); // Enter 입력 대기
+	cin.get( );
 } 
 
-// AI 첫번째 턴
+// AI 첫번째 턴 - 소환 후 공격 단계 스킵
 void Ai_First_Turn() {
 	turn = AI_TURN;
 	system("cls");
 	int choose = Ai_Pickup_Card();
-	aiF.push_back(Job[choose]);//필드 소환
+	aiF.push_back(Job[choose]); //필드 소환
 	freeJobs(Job[choose]);
 	draw(aiLp, playerLP);
 	cout << "| AI 는 " << Job[choose]->getName() << " 을(를) 소환했다!";
@@ -436,7 +471,7 @@ void Ai_First_Turn() {
 	for (int i = 0; i < 60; i++) {
 		cout << "-";
 	}
-	cin.get( ); // Enter 입력 대기
+	cin.get( );
 }
 
 // 플레이어 턴 진행 함수
@@ -445,40 +480,38 @@ void Player_Turn() {
 	system("cls");
 	draw(aiLp, playerLP);
 	cout << "| 플레이어 턴 입니다.\n";
+	// 필드가 가득 차지않았을 시(소환된 카드 2개 이하)
 	if (playerF.size() < 3) {
 		int choose = Pickup_Card();
+		// 카드 소환 시 소환 후 공격
 		if (choose != EMPTY) {
 			playerF.push_back(Job[choose]);
 			freeJobs(Job[choose]);
-		}
-		system("cls");
-		draw(aiLp, playerLP);
-		if (choose != EMPTY) {
+			system("cls");
+			draw(aiLp, playerLP);
 			cout << "| " << Job[choose]->getName() << " 을(를) 소환했다!" << endl;
 			system("cls");
+			Attack(playerF.back(), aiF);
+		}
+		// 카드 소환 스킵 시 공격 단계 진입
+		else {
+			system("cls");
+			draw(aiLp, playerLP);
+			cout << "| 소환을 스킵합니다. \n";
+			// 공격할 카드 존재 시 공격
 			if (playerF.size() > 0) {
-				system("cls");
-				Attack(playerF.back(), aiF);
-			}
-			else {
-				cout << "| 소환을 스킵합니다. \n";
-				cout << "| 공격할 카드가 없으므로 공격단계를 종료합니다.\n";
-				cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
+				cout << "| 엔터를 눌러서 공격단계로 넘어갑니다. \n";
 				cout << "|";
 				for (int i = 0; i < 60; i++) {
 					cout << "-";
 				}
 				cin.ignore();
 				cin.get();
-			}
-		}
-		else {
-			cout << "| 소환을 스킵합니다. \n";
-			if (playerF.size() > 0) {
-				system("cls");
 				Attack(playerF.back(), aiF);
 			}
+			// 공격할 카드 없을 경우 공격 단계 스킵 후 턴 종료
 			else {
+				cout << "| 공격할 카드가 존재하지 않으므로 공격단계를 종료합니다. \n";
 				cout << "| 엔터를 눌러서 플레이어 턴을 종료합니다.\n";
 				cout << "|";
 				for (int i = 0; i < 60; i++) {
@@ -491,6 +524,7 @@ void Player_Turn() {
 		}
 
 	}
+	// 필드가 가득 찼을 시 소환 단계 스킵
 	else {
 		cout << "| 필드가 가득 찼으므로 소환단계를 종료합니다.\n";
 		cout << "| 플레이어의 공격 단계로 넘어갑니다.\n";
@@ -502,7 +536,7 @@ void Player_Turn() {
 		cin.get();
 		Attack(playerF.back(), aiF);
 	}
-
+	// 게임 종료조건 확인(aiLP가 0 이하일 시)
 	if (aiLp <= 0) {
 		system("cls");
 		draw(aiLp, playerLP);
@@ -519,6 +553,7 @@ void Player_Turn() {
 void Ai_Turn() {
 	turn = AI_TURN;
 	system("cls");
+	// 필드가 가득 차지 않았을 시 소환 후 공격 단계 진입
 	if (aiF.size() < 3) {
 		int choose = Ai_Pickup_Card();
 		aiF.push_back(Job[choose]);
@@ -532,6 +567,7 @@ void Ai_Turn() {
 			cout << "-";
 		}
 	}
+	// 필드가 가득 찼을 시 소환 스킵 후 공격 단계 진입
 	else {
 		draw(aiLp, playerLP);
 		cout << "| AI 턴 입니다.\n";
@@ -545,6 +581,7 @@ void Ai_Turn() {
 	cin.get();
 	system("cls");
 	Ai_attack();
+	// 게임 종료조건 확인(playerLP가 0 이하일 시)
 	if (playerLP <= 0) {
 		system("cls");
 		draw(aiLp, playerLP);
@@ -567,12 +604,14 @@ void Ai_attack() {
 	int random1 = did(gen);
 	Card* attacker = aiF[random1];
 	int lowhp = 0;
+	// 가장 적은 HP 데이터 검색
 	for (int i = 1; i < playerF.size(); i++) {
 		if (playerF[i]->getHp() < playerF[lowhp]->getHp()) {
 			lowhp = i;
 		}
 	}
-	if (attacker->getCoolTime() == 0) {
+	// 스킬 쿨타임이 없고 상대 필드에 카드가 있거나 주술사가 공격일 경우 스킬 사용
+	if (attacker->getCoolTime() == 0 && (playerF.size() > 0 || attacker->getName() == "주술사")) {
 		attacker->Skill();
 		cout << "| " << attacker->getName() << "카드가 스킬을 사용합니다." << endl;
 		for (int i = 0; i < playerF.size(); i++) {
@@ -583,7 +622,8 @@ void Ai_attack() {
 			}
 		}
 	}
-	else if (playerF.size() != 0) {
+	// 상대 필드에 카드가 있을 경우 일반 공격
+	else if (playerF.size() > 0) {
 		Card* defender = playerF[lowhp];
 		cout << "| " << attacker->getName() << " 카드로 " << defender->getName() << "을(를) 공격합니다!" << endl;
 		if (defender->getHp() > attacker->getAtk()) {
@@ -596,6 +636,7 @@ void Ai_attack() {
 
 		}
 	}
+	// 위 조건을 모두 만족하지 않을 시 플레이어 직접 공격
 	else {
 		playerLP -= attacker->getAtk();
 		cout << "| " << attacker->getName() << " 카드로 플레이어를 직접 공격합니다!" << endl;
@@ -644,14 +685,17 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 	cout << "| 공격 방법을 선택하세요. : ";
 	int choose2 = 0;
 	cin >> choose2;
+	// 일반 공격
 	if (choose2 == 1) {
 		system("cls");
 		draw(aiLp, playerLP);
 		cout << "| " << chosenAttacker->getName() << " 카드로 " << defender->getName() << "을 공격합니다!" << endl;
 		cin.get();
+		// 맞는 상대의 HP가 공격자의 ATK보다 높으면 상대 HP 감소
 		if (defender->getHp()> chosenAttacker->getAtk()) {
 			defender->setHp( defender->getHp() - chosenAttacker->getAtk());
 		}
+		// 아닐 경우 상대 카드 제거 및 상대 LP 감소
 		else if (defender->getHp()<= chosenAttacker->getAtk()) {
 			int damage = chosenAttacker->getAtk() - (defender->getHp());
 			aiLp -= damage;
@@ -664,13 +708,14 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		}
 		cin.get();
 	}
+	// 스킬 (쿨타임 없을 시) -> 스킬 사용
 	else if (choose2 == 2 && chosenAttacker->getCoolTime() == 0) {
 		system("cls");
 		draw(aiLp, playerLP);
-		//스킬
 		cout << "| " << chosenAttacker->getName() << "카드가 스킬을 사용합니다." << endl;
 		cin.get();
 		chosenAttacker->Skill();
+		// 상대 HP 0 이하라면 필드에서 제거
 		for (int i = 0; i < aiF.size(); i++) {
 			if (aiF[i]->getHp() <= 0) {
 				aiLp += aiF[i]->getHp();
@@ -679,6 +724,7 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 			}
 		}
 	}
+	// 스킬 (쿨타임 있을 시) -> 다시 선택
 	else if (choose2 == 2) {
 		system("cls");
 		draw(aiLp, playerLP);
@@ -692,6 +738,7 @@ void Attack(Card* attacker, vector<Card*> defenders) {
 		cin.get();
 		Attack(attacker, defenders);
 	}
+	// 잘못된 명령 시 -> 다시 선택
 	else {
 		cout << "| 해당 명령은 존재하지 않습니다." << endl;
 		Attack(attacker, defenders);
