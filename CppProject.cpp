@@ -398,7 +398,8 @@ void initializeJobs() {
 }
 
 // 사용하지 않는 직업 목록 메모리 초기화
-void freeJobs(Card* p) {
+template <typename T>
+void freeJobs(T* p) {
 	for (int i = 0; i < 12; i++) {
 		if (Job[i] == p) continue; // 사용하는 직업일 경우 초기화하지 않음
 		delete Job[i];
