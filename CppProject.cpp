@@ -49,7 +49,7 @@ void Ai_First_Turn();
 void Player_Turn();
 void Ai_Turn();
 void Attack(Card*, vector<Card*>);
-void Ai_attack();
+void Attack();
 void draw(int, int);
 int Pickup_Card();
 int Ai_Pickup_Card();
@@ -580,7 +580,7 @@ void Ai_Turn() {
 	}
 	cin.get();
 	system("cls");
-	Ai_attack();
+	Attack();
 	// 게임 종료조건 확인(playerLP가 0 이하일 시)
 	if (playerLP <= 0) {
 		system("cls");
@@ -595,8 +595,8 @@ void Ai_Turn() {
 	system("cls");
 	draw(aiLp, playerLP);
 }
-// AI 공격
-void Ai_attack() {
+// AI 공격 (오버 로딩)
+void Attack() {
 	system("cls");
 	draw(aiLp, playerLP);
 	std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
@@ -648,7 +648,7 @@ void Ai_attack() {
 	}
 	cin.get();
 }
-// 공격
+// 공격 (오버 로딩)
 void Attack(Card* attacker, vector<Card*> defenders) {
 	//공격할 내 카드 선택
 	system("cls");
